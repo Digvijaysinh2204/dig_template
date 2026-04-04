@@ -1,8 +1,9 @@
 class StoreKey {
-  static const String languageCode = 'LanguageCode';
-  static const String isDarkMode = 'IsDarkMode';
-  static const String firebaseToken = 'firebaseToken';
-  static const isLogin = 'IsLogin';
-  static const String accessToken = 'AccessToken';
-  static final userData = 'UserData';
+  StoreKey._();
+  static const String languageCode = 'language_code';
+  static const String isDarkMode = 'is_dark_mode';
+  static const String firebaseToken = 'firebase_token';
+  static const String isLogin = 'is_login';
+  static const String accessToken = 'access_token';
+  static const String userData = 'user_data';
 }

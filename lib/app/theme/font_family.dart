@@ -1,5 +1,4 @@
 enum FontFamily { regular, medium, semiBold, bold, italic }
-
 extension FontFamilyExtension on FontFamily {
   String get value {
     switch (this) {

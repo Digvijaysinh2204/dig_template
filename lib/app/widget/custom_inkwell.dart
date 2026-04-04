@@ -1,32 +1,40 @@
 import '../utils/import.dart';
-
 class CustomInkWell extends StatelessWidget {
   const CustomInkWell({
     super.key,
-    required this.clickName,
+    required this.child,
     this.onTap,
+    this.onDoubleTap,
     this.onLongPress,
-    this.child,
+    this.borderRadius,
+    this.padding,
+    this.clickName = '',
   });
-
+  final Widget child;
   final VoidCallback? onTap;
+  final VoidCallback? onDoubleTap;
   final VoidCallback? onLongPress;
+  final BorderRadius? borderRadius;
+  final EdgeInsets? padding;
   final String clickName;
-  final Widget? child;
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashFactory: NoSplash.splashFactory,
-      hoverColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      onTap: () {
-        onTap?.call();
-        // Get.find<AnalyticsService>().logButtonClick(clickName);
-      },
+      onTap: onTap == null
+          ? null
+          : () {
+              if (clickName.isNotEmpty) {
+                Get.find<AnalyticsService>().logClick(
+                  widgetName: 'CustomInkWell',
+                  clickName: clickName,
+                );
+              }
+              onTap?.call();
+            },
+      onDoubleTap: onDoubleTap,
       onLongPress: onLongPress,
-      child: child,
+      borderRadius: borderRadius ?? BorderRadius.circular(8),
+      child: Padding(padding: padding ?? EdgeInsets.zero, child: child),
     );
   }
 }

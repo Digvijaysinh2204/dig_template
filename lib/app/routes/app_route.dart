@@ -1,5 +1,6 @@
 abstract class AppRoute {
-  static const splashView = '/SplashView';
-  static const mainView = '/MainView';
-  static const profileView = '/ProfileView';
+  AppRoute._();
+  static const String splash = '/';
+  static const String main = '/Main';
+  static const String auth = '/Auth';
 }
