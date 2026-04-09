@@ -44,8 +44,7 @@ class SplashController extends GetxController
     }
   }
   void _navigateNext() {
-    final isLogin =
-        Get.find<StorageService>().readData<bool>(StoreKey.isLogin) ?? false;
+    final isLogin = StoreData.readData<bool>(StoreKey.isLogin) ?? false;
     if (isLogin) {
       Get.offAllNamed(AppRoute.main);
     } else {

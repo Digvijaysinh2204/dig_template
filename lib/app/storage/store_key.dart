@@ -6,4 +6,5 @@ class StoreKey {
   static const String isLogin = 'is_login';
   static const String accessToken = 'access_token';
   static const String userData = 'user_data';
+  static const String userList = 'user_list';
 }

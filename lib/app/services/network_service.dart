@@ -1,5 +1,7 @@
 import '../utils/import.dart';
+
 class NetworkService extends GetxService {
+  static NetworkService get instance => Get.find<NetworkService>();
   final Connectivity _connectivity = Connectivity();
   final _isConnected = true.obs;
   RxBool get isConnected => _isConnected;
@@ -10,6 +12,7 @@ class NetworkService extends GetxService {
     _connectivity.onConnectivityChanged.listen(_updateStatus);
     return this;
   }
+
   void _updateStatus(List<ConnectivityResult> results) {
     _isConnected.value = !results.contains(ConnectivityResult.none);
     kLog(

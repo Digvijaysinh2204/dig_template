@@ -1,2 +1,9 @@
 export 'auth/auth_export.dart';
 export 'splash/splash_export.dart';
+export 'otp/otp_export.dart';
+export 'register/register_export.dart';
+export 'main/view/main_view.dart';
+export 'main/binding/main_binding.dart';
+export 'dashboard/view/dashboard_view.dart';
+export 'more/view/more_view.dart';
+export 'more/binding/more_binding.dart';

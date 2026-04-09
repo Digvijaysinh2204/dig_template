@@ -5,7 +5,7 @@ output-dir: lib/generated
 # Examples:
 # skip: icons              # Skip entire icons folder
 # skip: icons/svg          # Skip only icons/svg subfolder
-# skip: fonts              # Skip entire fonts folder
+skip: fonts              # Skip entire fonts folder
 # skip:                    # Skip multiple folders
 #   - icons
 #   - fonts

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomCard extends StatelessWidget {
   const CustomCard({
     super.key,
@@ -19,19 +20,14 @@ class CustomCard extends StatelessWidget {
   final double radius;
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: width ?? double.infinity,
       height: height,
       padding: padding,
       decoration: BoxDecoration(
-        color: color ?? (isDark ? AppColor.kScaffoldDark : AppColor.kWhite),
+        color: color ?? AppColor.scaffold(context),
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(
-          color:
-              borderColor ??
-              (isDark ? AppColor.kDividerDark : AppColor.kDividerLight),
-        ),
+        border: Border.all(color: borderColor ?? AppColor.divider(context)),
       ),
       child: child,
     );

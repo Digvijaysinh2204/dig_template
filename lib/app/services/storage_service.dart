@@ -1,5 +1,6 @@
 import '../utils/import.dart';
 class StorageService extends GetxService {
+  static StorageService get instance => Get.find<StorageService>();
   final GetStorage _box = GetStorage();
   Future<StorageService> init() async {
     await GetStorage.init();
@@ -78,4 +79,20 @@ class StorageService extends GetxService {
     if (value is T) return value;
     return null;
   }
+}
+
+class StoreData {
+  static StorageService get _service => Get.find<StorageService>();
+
+  static Future<void> setData(String key, dynamic value) =>
+      _service.setData(key, value);
+
+  static T? readData<T>(String key) => _service.readData<T>(key);
+
+  static Future<void> removeData(String key) => _service.removeData(key);
+
+  static Future<void> clear() => _service.clear();
+
+  static void listen<T>(String key, void Function(T? value) callback) =>
+      _service.listen<T>(key, callback);
 }

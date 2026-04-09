@@ -23,8 +23,8 @@ class CustomCircleIconWidget extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
     return CustomInkWell(
       clickName: clickName != null
-          ? '$clickName ${ClickEvents.click}'
-          : '${ClickEvents.iconClick} ${ClickEvents.click}',
+          ? '$clickName ${AppClick.click}'
+          : '${AppClick.iconClick} ${AppClick.click}',
       onTap: onTap,
       borderRadius: BorderRadius.circular(size / 2),
       child: Container(

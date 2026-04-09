@@ -1,7 +1,7 @@
 class AppConstant {
   AppConstant._();
   static const String appName = 'Structure';
-  static const String author = 'Digvijaysinh Chauhan - DIGCLI';
+  static const String author = 'DIGCLI';
   static const String defaultLanguage = 'en';
   static const int otpTimer = 60;
   static const int perPage = 20;
@@ -9,4 +9,5 @@ class AppConstant {
   static const String defaultLightBg = '';
   static const String defaultDarkBg = '';
   static const bool isFirebaseEnabled = false;
+  static const String staticOtp = '1234';
 }

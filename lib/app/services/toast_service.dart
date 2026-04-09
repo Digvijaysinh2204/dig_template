@@ -2,6 +2,7 @@ import 'dart:ui';
 import '../utils/import.dart';
 enum ToastType { success, error, warning, info }
 class ToastService extends GetxService {
+  static ToastService get instance => Get.find<ToastService>();
   void show({String message = '', ToastType type = ToastType.warning}) {
     if (message.trim().isEmpty) return;
     toastification.showCustom(
@@ -118,4 +119,8 @@ class ToastService extends GetxService {
         return 4;
     }
   }
+}
+
+void showToast({required String message, ToastType type = ToastType.warning}) {
+  Get.find<ToastService>().show(message: message, type: type);
 }

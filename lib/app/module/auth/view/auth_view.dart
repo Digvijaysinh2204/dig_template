@@ -8,167 +8,128 @@ class AuthView extends GetView<AuthController> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       isAppBar: false,
-      isSafeAreaTop: false,
-      isSafeAreaBottom: false,
-      extendBodyBehindAppBar: true,
-      statusBarDarkIcons: false,
+      isSafeAreaTop: true,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
-        child: Column(children: [_buildHeader(context), _buildForm(context)]),
+        child: Column(
+          children: [
+            const Gap(60),
+            _buildTopIcon(context),
+            const Gap(40),
+            _buildTextHeader(context),
+            const Gap(50),
+            _buildPhoneInput(context),
+            const Gap(32),
+            _buildContinueButton(context),
+            const Gap(60),
+            _buildFooter(context),
+          ],
+        ).paddingSymmetric(horizontal: 24),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
+  Widget _buildTopIcon(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.fromLTRB(24, 40 + topPadding, 24, 60),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [AppColor.kPrimary, AppColor.kSecondary],
-        ),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(48),
-          bottomRight: Radius.circular(48),
-        ),
-      ),
-      child: Column(
-        children: [
-          CustomTextView(
-            text: context.loc.welcomeTo(AppConstant.appName),
-            textAlign: TextAlign.center,
-            style: AppTextStyle.bold(
-              size: 34,
-              color: AppColor.kWhite,
-              letterSpacing: 1.2,
-            ),
-          ),
-          const Gap(12),
-          CustomTextView(
-            text: AppConstant.author,
-            textAlign: TextAlign.center,
-            style: AppTextStyle.medium(
-              size: 16,
-              color: AppColor.kWhite.withValues(alpha: 0.6),
-              letterSpacing: 0.8,
-            ),
+      height: 90,
+      width: 90,
+      decoration: BoxDecoration(
+        color: AppColor.kPrimary,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: AppColor.kPrimary.withValues(alpha: 0.2),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
+      ),
+      child: const Icon(
+        Icons.trending_up_rounded,
+        color: AppColor.kWhite,
+        size: 54,
       ),
     );
   }
 
-  Widget _buildForm(BuildContext context) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
-    return Padding(
-      padding: EdgeInsets.fromLTRB(28, 50, 28, 40 + bottomPadding),
-      child: Column(
-        children: [
-          CustomTextView(
-            text: context.loc.loginSignupSubtitle,
-            textAlign: TextAlign.center,
-            style: AppTextStyle.bold(size: 28, color: AppColor.text(context)),
-          ),
-          const Gap(12),
-          CustomTextView(
-            text: context.loc.mobileNumberSubtitle,
-            textAlign: TextAlign.center,
-            style: AppTextStyle.regular(
-              size: 16,
-              color: AppColor.text(context).withValues(alpha: 0.5),
-            ),
-          ),
-          const Gap(48),
-          _buildPhoneField(context),
-          const Gap(40),
-          Obx(
-            () => CustomButton(
-              width: double.infinity,
-              clickName: AnalyticsKeys.loginContinue,
-              text: context.loc.continueButton.toUpperCase(),
-              isLoading: controller.isLoading.value,
-              onTap: controller.onLogin,
-              bgColor: AppColor.kPrimary,
-              textColors: AppColor.kWhite,
-            ),
-          ),
-          const Gap(48),
-          _buildFooter(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPhoneField(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+  Widget _buildTextHeader(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomTextView(
-          text: context.loc.phoneNumber.toUpperCase(),
-          style: AppTextStyle.bold(
-            size: 13,
-            color: AppColor.text(context).withValues(alpha: 0.4),
-            letterSpacing: 2.0,
+          text: context.loc.welcomeTo(AppConstant.appName),
+          textAlign: TextAlign.center,
+          style: AppTextStyle.bold(size: 30, color: AppColor.text(context)),
+        ),
+        const Gap(12),
+        CustomTextView(
+          text: context.loc.loginSignupSubtitle,
+          textAlign: TextAlign.center,
+          style: AppTextStyle.regular(
+            size: 16,
+            color: AppColor.text(context).withValues(alpha: 0.5),
           ),
         ),
-        const Gap(16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      ],
+    );
+  }
+
+  Widget _buildPhoneInput(BuildContext context) {
+    return CustomTextField(
+      controller: controller.tfPhoneController,
+      textInputType: TextInputType.phone,
+      textStyle: AppTextStyle.bold(
+        size: 18,
+        color: AppColor.text(context),
+        letterSpacing: 1.2,
+      ),
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        PhoneNumberFormatter('IN'),
+      ],
+      hintText: context.loc.phoneHint,
+      hintStyle: AppTextStyle.regular(
+        size: 16,
+        color: AppColor.text(context).withValues(alpha: 0.3),
+      ),
+      fillColor: AppColor.surface(context),
+      enableBorderColor: AppColor.text(context).withValues(alpha: 0.1),
+      focusBorderColor: AppColor.kPrimary,
+      borderRadius: 16,
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 12),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height: 58,
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isDark
-                    ? AppColor.kWhite.withValues(alpha: 0.05)
-                    : AppColor.kBlack.withValues(alpha: 0.03),
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: AppColor.text(context).withValues(alpha: 0.08),
-                ),
-              ),
-              child: Row(
-                children: [
-                  CustomTextView(
-                    text: '+91',
-                    style: AppTextStyle.bold(
-                      size: 17,
-                      color: AppColor.text(context),
-                    ),
-                  ),
-                  const Gap(6),
-                  Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 20,
-                    color: AppColor.text(context).withValues(alpha: 0.4),
-                  ),
-                ],
+            CustomTextView(
+              text: context.loc.phonePrefix,
+              style: AppTextStyle.bold(
+                size: 18,
+                color: AppColor.text(context).withValues(alpha: 0.8),
               ),
             ),
-            const Gap(14),
-            Expanded(
-              child: CustomTextField(
-                controller: controller.tfPhoneController,
-                hintText: '00000 00000',
-                textInputType: TextInputType.phone,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 19,
-                ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(10),
-                ],
-              ),
+            const Gap(12),
+            Container(
+              height: 24,
+              width: 1,
+              color: AppColor.text(context).withValues(alpha: 0.1),
             ),
           ],
         ),
-      ],
+      ),
+    );
+  }
+
+  Widget _buildContinueButton(BuildContext context) {
+    return Obx(
+      () => CustomButton(
+        width: double.infinity,
+        clickName: AppClick.loginContinue,
+        text: context.loc.continueButton,
+        isLoading: controller.isLoading.value,
+        onTap: controller.onLogin,
+        bgColor: AppColor.kPrimary,
+        textColors: AppColor.kWhite,
+      ),
     );
   }
 
@@ -180,7 +141,7 @@ class AuthView extends GetView<AuthController> {
           textAlign: TextAlign.center,
           style: AppTextStyle.regular(
             size: 13,
-            color: AppColor.text(context).withValues(alpha: 0.4),
+            color: AppColor.text(context).withValues(alpha: 0.5),
           ),
         ),
         const Gap(6),
@@ -188,16 +149,13 @@ class AuthView extends GetView<AuthController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _footerLink(context.loc.termsOfService),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: CustomTextView(
-                text: context.loc.and,
-                style: AppTextStyle.regular(
-                  size: 13,
-                  color: AppColor.text(context).withValues(alpha: 0.4),
-                ),
+            CustomTextView(
+              text: context.loc.and,
+              style: AppTextStyle.regular(
+                size: 13,
+                color: AppColor.text(context).withValues(alpha: 0.5),
               ),
-            ),
+            ).paddingSymmetric(horizontal: 6),
             _footerLink(context.loc.privacyPolicy),
           ],
         ),
@@ -206,15 +164,14 @@ class AuthView extends GetView<AuthController> {
   }
 
   Widget _footerLink(String text) {
-    return InkWell(
+    return CustomInkWell(
+      clickName: AppClick.privacyPolicy,
       onTap: () {},
       child: CustomTextView(
         text: text,
-        style: AppTextStyle.bold(
+        style: AppTextStyle.semiBold(
           size: 13,
           color: AppColor.kPrimary,
-          decoration: TextDecoration.underline,
-          decorationColor: AppColor.kPrimary.withValues(alpha: 0.3),
         ),
       ),
     );

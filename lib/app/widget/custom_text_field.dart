@@ -61,9 +61,7 @@ class CustomTextField extends StatelessWidget {
   final bool? isDense;
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final textColor = isDark ? AppColor.kTextDark : AppColor.kTextLight;
+    final textColor = AppColor.text(context);
     return TextFormField(
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       cursorColor: cursorColor ?? AppColor.kPrimary,
@@ -75,7 +73,7 @@ class CustomTextField extends StatelessWidget {
         filled: true,
         fillColor:
             fillColor ??
-            (isDark
+            (Theme.of(context).brightness == Brightness.dark
                 ? AppColor.kPrimary.withValues(alpha: 0.05)
                 : AppColor.kWhite),
         suffixIcon: suffixIcon != null
@@ -107,9 +105,9 @@ class CustomTextField extends StatelessWidget {
           borderSide: BorderSide(
             color:
                 enableBorderColor ??
-                (isDark
+                (Theme.of(context).brightness == Brightness.dark
                     ? AppColor.kPrimary.withValues(alpha: 0.15)
-                    : AppColor.kTextLight.withValues(alpha: 0.1)),
+                    : AppColor.text(context).withValues(alpha: 0.1)),
           ),
           borderRadius: BorderRadius.circular(borderRadius),
         ),

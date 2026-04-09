@@ -15,7 +15,7 @@ class CustomBackButton extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
     final textColor = isDark ? AppColor.kTextDark : AppColor.kTextLight;
     return CustomInkWell(
-      clickName: '${ClickEvents.backButtonClick} ${ClickEvents.click}',
+      clickName: '${AppClick.backButtonClick} ${AppClick.click}',
       onTap: onPressed ?? () => Get.back(closeOverlays: true),
       child: Container(
         height: 40,

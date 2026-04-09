@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomRadioButton<T> extends StatelessWidget {
   const CustomRadioButton({
     super.key,
@@ -20,10 +21,7 @@ class CustomRadioButton<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isSelected = value == groupValue;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final effectiveBorderColor =
-        borderColor ??
-        (isDark ? AppColor.kDividerDark : AppColor.kDividerLight);
+    final effectiveBorderColor = borderColor ?? AppColor.divider(context);
     return CustomInkWell(
       clickName: 'radio_button',
       onTap: () => onChanged(value),

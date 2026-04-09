@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 @immutable
 class TabItemData {
   final int id;
@@ -60,6 +61,7 @@ class TabItemData {
       enabled: enabled ?? this.enabled,
     );
   }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -67,10 +69,13 @@ class TabItemData {
         other.title == title &&
         other.enabled == enabled;
   }
+
   @override
   int get hashCode => Object.hash(title, enabled);
 }
+
 enum TabScrollAlignment { start, center, ensureVisible }
+
 class ScrollableAnimatedTabBar extends StatefulWidget {
   final List<TabItemData> tabs;
   final int selectedIndex;
@@ -172,6 +177,7 @@ class ScrollableAnimatedTabBar extends StatefulWidget {
   State<ScrollableAnimatedTabBar> createState() =>
       _ScrollableAnimatedTabBarState();
 }
+
 class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
   late final ScrollController _scrollController;
   late final List<GlobalKey> _tabKeys;
@@ -186,6 +192,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
       );
     }
   }
+
   @override
   void didUpdateWidget(covariant ScrollableAnimatedTabBar oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -202,6 +209,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
       );
     }
   }
+
   void _scrollToIndex(int index) {
     if (!_scrollController.hasClients) return;
     if (index < 0 || index >= _tabKeys.length) return;
@@ -245,6 +253,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
       curve: widget.scrollAnimationCurve,
     );
   }
+
   BoxDecoration _resolveDecoration(
     bool isSelected,
     int index,
@@ -261,15 +270,11 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
         borderRadius: BorderRadius.circular(widget.tabBorderRadius),
         border: widget.showBorder
             ? Border.all(
-                color:
-                    widget.disabledBorderColor ??
-                    (isDark ? AppColor.kDividerDark : AppColor.kDividerLight),
+                color: widget.disabledBorderColor ?? AppColor.divider(context),
                 width: widget.unselectedBorderWidth,
               )
             : null,
-        color:
-            widget.disabledBackgroundColor ??
-            (isDark ? AppColor.kScaffoldDark : AppColor.kWhite),
+        color: widget.disabledBackgroundColor ?? AppColor.scaffold(context),
       );
     }
     return BoxDecoration(
@@ -278,10 +283,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
           ? Border.all(
               color: isSelected
                   ? (widget.selectedBorderColor ?? AppColor.kPrimary)
-                  : (widget.unselectedBorderColor ??
-                        (isDark
-                            ? AppColor.kDividerDark
-                            : AppColor.kDividerLight)),
+                  : (widget.unselectedBorderColor ?? AppColor.divider(context)),
               width: isSelected
                   ? widget.selectedBorderWidth
                   : widget.unselectedBorderWidth,
@@ -293,7 +295,9 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
                 : null)
           : (widget.unselectedGradient == null
                 ? (widget.unselectedBackgroundColor ??
-                      (isDark ? AppColor.kScaffoldDark : AppColor.kWhite))
+                      (Theme.of(context).brightness == Brightness.dark
+                          ? AppColor.kScaffoldDark
+                          : AppColor.kWhite))
                 : null),
       gradient: isSelected
           ? widget.selectedGradient
@@ -301,6 +305,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
       boxShadow: isSelected ? widget.selectedShadow : widget.unselectedShadow,
     );
   }
+
   TextStyle _resolveTextStyle(
     TabItemData tab,
     bool isSelected,
@@ -308,7 +313,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
     bool isDark,
   ) {
     if (tab.textStyle != null) return tab.textStyle!;
-    final textColor = isDark ? AppColor.kTextDark : AppColor.kTextLight;
+    final textColor = AppColor.text(context);
     if (!isEnabled) {
       return widget.disabledTextStyle ??
           AppTextStyle.regular(
@@ -331,6 +336,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
                 color: widget.unselectedTextColor ?? textColor,
               );
   }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -373,6 +379,7 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
       ),
     );
   }
+
   Widget _buildTabContent(
     TabItemData tab,
     bool isSelected,

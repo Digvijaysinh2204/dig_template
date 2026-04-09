@@ -14,6 +14,7 @@ extension RequestMethodExtension on RequestMethod {
   }
 }
 class ApiService extends GetxService {
+  static ApiService get instance => Get.find<ApiService>();
   final http.Client _client = http.Client();
   Future<Result<T>> request<T>({
     required String url,

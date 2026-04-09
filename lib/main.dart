@@ -1,6 +1,7 @@
-import 'app/utils/scroll_behavior.dart';
 import 'app/services/clear_focus_observer.dart';
 import 'app/utils/import.dart';
+import 'app/utils/scroll_behavior.dart';
+
 @pragma('vm:entry-point')
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,6 +9,7 @@ Future<void> main() async {
   await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
       config: const ToastificationConfig(
         animationDuration: Duration(milliseconds: 250),
         alignment: Alignment.topCenter,
-        maxToastLimit: 5,
+        maxToastLimit: 1,
       ),
       child: GetMaterialApp(
         title: AppConstant.appName,

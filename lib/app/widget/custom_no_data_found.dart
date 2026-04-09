@@ -13,8 +13,7 @@ class CustomNoDataFound extends StatelessWidget {
   final String? retryText;
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? AppColor.kTextDark : AppColor.kTextLight;
+    final textColor = AppColor.text(context);
     final loc = context.loc;
     return Center(
       child: Padding(

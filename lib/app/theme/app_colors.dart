@@ -18,4 +18,19 @@ class AppColor {
       Theme.of(context).brightness == Brightness.dark
           ? kTextDark
           : kTextLight;
+
+  static Color divider(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? kDividerDark
+          : kDividerLight;
+
+  static Color scaffold(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? kScaffoldDark
+          : kScaffoldLight;
+
+  static Color surface(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? kWhite.withValues(alpha: 0.05)
+          : kBlack.withValues(alpha: 0.03);
 }

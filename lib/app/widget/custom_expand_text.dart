@@ -63,13 +63,13 @@ class _CustomExpandTextState extends State<CustomExpandText> {
                   Get.find<AnalyticsService>().logClick(
                     widgetName: 'CustomExpandText',
                     clickName: _isExpanded
-                        ? ClickEvents.showLessClick
-                        : ClickEvents.readMoreClick,
+                        ? AppClick.showLessClick
+                        : AppClick.readMoreClick,
                   );
                 },
                 clickName: _isExpanded
-                    ? ClickEvents.showLessClick
-                    : ClickEvents.readMoreClick,
+                    ? AppClick.showLessClick
+                    : AppClick.readMoreClick,
                 child: Text(
                   _isExpanded ? loc.showLess : loc.readMore,
                   style: moreStyle,

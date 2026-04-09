@@ -43,7 +43,7 @@ class CustomButton extends StatelessWidget {
       alpha: isDisabled ? 0.38 : 1.0,
     );
     return CustomInkWell(
-      clickName: '$clickName ${ClickEvents.click}',
+      clickName: '$clickName ${AppClick.click}',
       onTap: _canTap ? onTap : null,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),

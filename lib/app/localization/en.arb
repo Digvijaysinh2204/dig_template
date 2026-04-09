@@ -1,35 +1,10 @@
 {
   "@@locale": "en",
-  "welcomeTo": "Welcome to {appName}",
-  "@welcomeTo": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      }
-    }
-  },
-  "loginSignupSubtitle": "Login or Signup",
-  "mobileNumberSubtitle": "Enter your mobile number to continue",
-  "continueButton": "CONTINUE",
-  "phoneNumber": "Phone Number",
-  "byContinuingAgree": "By continuing, you agree to our",
-  "termsOfService": "Terms of Service",
-  "and": "and",
-  "privacyPolicy": "Privacy Policy",
-  "downloading": "Downloading {progress}",
-  "@downloading": {
-    "placeholders": {
-      "progress": {}
-    }
-  },
-  "downloadComplete": "Download complete",
-  "downloadFailed": "Download failed",
-  "downloadPaused": "Download paused",
+  "@@common_ui": "--- Global / UI Shared Strings ---",
   "noConnection": "No connection",
   "somethingWentWrong": "Something went wrong",
   "noInternetConnection": "No internet connection: {details}",
   "@noInternetConnection": {
-    "description": "Message shown when there is no internet connection.",
     "placeholders": {
       "details": {
         "type": "String"
@@ -38,7 +13,6 @@
   },
   "requestTimedOut": "Request timed out after {seconds} seconds",
   "@requestTimedOut": {
-    "description": "Message for request timeout.",
     "placeholders": {
       "seconds": {
         "type": "int"
@@ -47,7 +21,6 @@
   },
   "badResponseFormat": "Bad response format: {details}",
   "@badResponseFormat": {
-    "description": "Message for bad response format.",
     "placeholders": {
       "details": {
         "type": "String"
@@ -59,5 +32,87 @@
   "readMore": "Read more",
   "noDataFound": "No data found",
   "cancel": "Cancel",
-  "author": "Created by"
+  "author": "Created by",
+  "and": "and",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "language": "Language",
+  "selectLanguage": "Select Language",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "english": "English",
+  "hindi": "Hindi",
+  "gujarati": "Gujarati",
+  "@@common_download": "--- Common Download Strings ---",
+  "downloading": "Downloading {progress}",
+  "@downloading": {
+    "placeholders": {
+      "progress": {}
+    }
+  },
+  "downloadComplete": "Download complete",
+  "downloadFailed": "Download failed",
+  "downloadPaused": "Download paused",
+  "@@module_auth": "--- Module: Auth ---",
+  "welcomeTo": "Welcome to {appName}",
+  "@welcomeTo": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "loginSignupSubtitle": "Welcome back! Sign in to continue",
+  "continueButton": "CONTINUE",
+  "phoneNumber": "Phone Number",
+  "byContinuingAgree": "By continuing, you agree to our",
+  "phonePrefix": "+91",
+  "phoneHint": "Enter Mobile Number",
+  "invalidPhoneNumber": "Invalid phone number for the selected region",
+  "enterValidPhone": "Please enter a valid phone number",
+  "@@module_otp": "--- Module: OTP ---",
+  "verifyOtp": "Verify OTP",
+  "otpSentTo": "We've sent a 4-digit code to {phone}",
+  "@otpSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "didNotReceiveCode": "Didn't receive the code?",
+  "resendOtp": "Resend OTP",
+  "otpVerifiedSuccess": "OTP verified successfully",
+  "otpResentSuccess": "OTP resent successfully",
+  "invalidOtp": "Invalid OTP. Please try again.",
+  "continueBtn": "CONTINUE",
+  "@@module_register": "--- Module: Register ---",
+  "register": "Register",
+  "completeProfile": "Complete your profile",
+  "provideDetailsToContinue": "Please provide your details to continue",
+  "fullName": "Full Name",
+  "emailAddress": "Email Address",
+  "pleaseEnterName": "Please enter your name",
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "registrationSuccessful": "Registration successful",
+  "@@module_main": "--- Module: Main ---",
+  "dashboard": "Dashboard",
+  "more": "More",
+  "settings": "Settings",
+  "logout": "Logout",
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account? This action cannot be undone.",
+  "@@module_dashboard": "--- Module: Dashboard ---",
+  "welcomeUser": "Welcome, {name}!",
+  "@welcomeUser": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "successfullyLoggedIn": "You are successfully logged in."
 }

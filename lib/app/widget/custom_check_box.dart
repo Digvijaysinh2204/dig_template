@@ -29,7 +29,7 @@ class CustomCheckBox extends StatelessWidget {
         borderColor ??
         (isDark ? AppColor.kDividerDark : AppColor.kDividerLight);
     return CustomInkWell(
-      clickName: '${ClickEvents.checkBoxClick} ${ClickEvents.click}',
+      clickName: '${AppClick.checkBoxClick} ${AppClick.click}',
       onTap: () => onChanged?.call(!value),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),

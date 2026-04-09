@@ -8,3 +8,5 @@ untranslated-messages-file: untranslated_messages.json
 translator:
   targets:
     - en
+    - hi
+    - gu

@@ -15,5 +15,20 @@ abstract class AppPage {
       page: () => const AuthView(),
       binding: AuthBinding(),
     ),
+    GetPage(
+      name: AppRoute.otp,
+      page: () => const OtpView(),
+      binding: OtpBinding(),
+    ),
+    GetPage(
+      name: AppRoute.registerView,
+      page: () => const RegisterView(),
+      binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: AppRoute.mainView,
+      page: () => const MainView(),
+      binding: MainBinding(),
+    ),
   ];
 }
