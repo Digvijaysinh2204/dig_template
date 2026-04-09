@@ -1,4 +1,5 @@
 import 'package:pinput/pinput.dart';
+
 import '../../../utils/import.dart';
 import '../controller/otp_controller.dart';
 
@@ -10,8 +11,8 @@ class OtpView extends GetView<OtpController> {
     final loc = context.loc;
 
     final defaultPinTheme = PinTheme(
-      width: 60,
-      height: 60,
+      width: 64,
+      height: 64,
       textStyle: AppTextStyle.bold(size: 22, color: AppColor.text(context)),
       decoration: BoxDecoration(
         color: AppColor.surface(context),
@@ -34,13 +35,13 @@ class OtpView extends GetView<OtpController> {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
-            const Gap(40),
+            const Gap(32),
             _buildLockIcon(context),
-            const Gap(40),
+            const Gap(32),
             _buildHeader(context, loc),
-            const Gap(48),
+            const Gap(40),
             _buildOtpInput(context, defaultPinTheme, focusedPinTheme),
-            const Gap(48),
+            const Gap(40),
             _buildVerifyButton(context, loc),
             const Gap(32),
             _buildResendSection(context, loc),
@@ -92,26 +93,26 @@ class OtpView extends GetView<OtpController> {
     PinTheme defaultPinTheme,
     PinTheme focusedPinTheme,
   ) {
-    return Center(
-      child: Pinput(
-        length: 4,
-        controller: controller.tfOtpController,
-        focusNode: controller.focusNode,
-        defaultPinTheme: defaultPinTheme,
-        focusedPinTheme: focusedPinTheme,
-        onCompleted: controller.verifyOtp,
-        hapticFeedbackType: HapticFeedbackType.lightImpact,
-        cursor: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              width: 2,
-              height: 20,
-              color: AppColor.kPrimary,
-            ),
-          ],
-        ),
+    return Pinput(
+      length: 4,
+      controller: controller.tfOtpController,
+      focusNode: controller.focusNode,
+      defaultPinTheme: defaultPinTheme,
+      focusedPinTheme: focusedPinTheme,
+      onCompleted: controller.verifyOtp,
+      hapticFeedbackType: HapticFeedbackType.lightImpact,
+      mainAxisAlignment: MainAxisAlignment.center,
+      separatorBuilder: (index) => const Gap(20),
+      cursor: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            width: 2,
+            height: 20,
+            color: AppColor.kPrimary,
+          ),
+        ],
       ),
     );
   }

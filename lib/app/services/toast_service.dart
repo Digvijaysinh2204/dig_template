@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import '../utils/import.dart';
 
 enum ToastType { success, error, warning, info }
@@ -21,62 +22,66 @@ class ToastService extends GetxService {
         );
       },
       builder: (context, holder) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
-                decoration: BoxDecoration(
-                  color: _getBackgroundColor(type),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
-                    width: 1,
+        return Material(
+          color: Colors.transparent,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
                   ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        _getIcon(type),
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                  decoration: BoxDecoration(
+                    color: _getBackgroundColor(type),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.1),
+                      width: 1,
                     ),
-                    const Gap(12),
-                    Expanded(
-                      child: CustomTextView(
-                        text: message,
-                        style: AppTextStyle.medium(
-                          size: 14,
-                          color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
                         ),
-                      ),
-                    ),
-                    const Gap(8),
-                    CustomInkWell(
-                      onTap: () => toastification.dismissById(holder.id),
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
                         child: Icon(
-                          Icons.close_rounded,
-                          color: Colors.white.withValues(alpha: 0.7),
+                          _getIcon(type),
+                          color: Colors.white,
                           size: 20,
                         ),
                       ),
-                    ),
-                  ],
+                      const Gap(12),
+                      Expanded(
+                        child: CustomTextView(
+                          text: message,
+                          style: AppTextStyle.medium(
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Gap(8),
+                      CustomInkWell(
+                        clickName: 'close_toast',
+                        onTap: () => toastification.dismissById(holder.id),
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: Colors.white.withValues(alpha: 0.7),
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

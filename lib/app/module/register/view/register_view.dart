@@ -10,7 +10,7 @@ class RegisterView extends GetView<RegisterController> {
       isAppBar: true,
       title: CustomTextView(text: context.loc.register),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        physics: const ClampingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -21,7 +21,7 @@ class RegisterView extends GetView<RegisterController> {
             const Gap(40),
             _buildRegisterButton(context),
           ],
-        ),
+        ).paddingSymmetric(horizontal: 24),
       ),
     );
   }

@@ -32,7 +32,7 @@ class DashboardView extends GetView<DashboardController> {
               ),
             ),
           ],
-        ),
+        ).paddingSymmetric(horizontal: 24),
       ),
     );
   }
