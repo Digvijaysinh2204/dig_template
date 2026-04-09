@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
+
 import '../utils/import.dart';
 
 enum RequestMethod { get, post, put, delete, patch }
@@ -274,14 +276,22 @@ class ApiService extends GetxService {
 
   String _extractErrorMessage(dynamic parsed, int statusCode) {
     if (parsed is Map) {
-      if (parsed['statusMessage'] != null)
+      if (parsed['statusMessage'] != null) {
         return parsed['statusMessage'].toString();
-      if (parsed['message'] != null) return parsed['message'].toString();
-      if (parsed['error'] != null) return parsed['error'].toString();
-      if (parsed['msg'] != null) return parsed['msg'].toString();
+      }
+      if (parsed['message'] != null) {
+        return parsed['message'].toString();
+      }
+      if (parsed['error'] != null) {
+        return parsed['error'].toString();
+      }
+      if (parsed['msg'] != null) {
+        return parsed['msg'].toString();
+      }
       if (parsed['data'] != null && parsed['data'] is Map) {
-        if (parsed['data']['message'] != null)
+        if (parsed['data']['message'] != null) {
           return parsed['data']['message'].toString();
+        }
       }
     }
     if (parsed is String && parsed.isNotEmpty) {

@@ -136,22 +136,37 @@ class CustomScaffold extends StatelessWidget {
 
   Widget? _getBackground(bool isDark) {
     if (isDark) {
-      if (darkBackgroundWidget != null) return darkBackgroundWidget;
-      if (darkBackgroundImage != null) return _bgImg(darkBackgroundImage!);
-      if (defaultDarkBackgroundWidget != null)
+      if (darkBackgroundWidget != null) {
+        return darkBackgroundWidget;
+      }
+      if (darkBackgroundImage != null) {
+        return _bgImg(darkBackgroundImage!);
+      }
+      if (defaultDarkBackgroundWidget != null) {
         return defaultDarkBackgroundWidget;
-      if (defaultDarkBackgroundImage != null)
+      }
+      if (defaultDarkBackgroundImage != null) {
         return _bgImg(defaultDarkBackgroundImage!);
-      if (AppConstant.defaultDarkBg.isNotEmpty)
+      }
+      if (AppConstant.defaultDarkBg.isNotEmpty) {
         return _bgImgPath(AppConstant.defaultDarkBg);
+      }
     } else {
-      if (backgroundWidget != null) return backgroundWidget;
-      if (backgroundImage != null) return _bgImg(backgroundImage!);
-      if (defaultBackgroundWidget != null) return defaultBackgroundWidget;
-      if (defaultBackgroundImage != null)
+      if (backgroundWidget != null) {
+        return backgroundWidget;
+      }
+      if (backgroundImage != null) {
+        return _bgImg(backgroundImage!);
+      }
+      if (defaultBackgroundWidget != null) {
+        return defaultBackgroundWidget;
+      }
+      if (defaultBackgroundImage != null) {
         return _bgImg(defaultBackgroundImage!);
-      if (AppConstant.defaultLightBg.isNotEmpty)
+      }
+      if (AppConstant.defaultLightBg.isNotEmpty) {
         return _bgImgPath(AppConstant.defaultLightBg);
+      }
     }
     return null;
   }

@@ -12,8 +12,9 @@ class RegisterView extends GetView<RegisterController> {
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Gap(30),
+            _buildProfilePicker(context),
             const Gap(30),
             _buildHeader(context),
             const Gap(40),
@@ -22,6 +23,62 @@ class RegisterView extends GetView<RegisterController> {
             _buildRegisterButton(context),
           ],
         ).paddingSymmetric(horizontal: 24),
+      ),
+    );
+  }
+
+  Widget _buildProfilePicker(BuildContext context) {
+    return Center(
+      child: Stack(
+        children: [
+          Obx(
+            () => Container(
+              height: 100,
+              width: 100,
+              decoration: BoxDecoration(
+                color: AppColor.surface(context),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: AppColor.kPrimary.withValues(alpha: 0.2),
+                  width: 2,
+                ),
+                image: controller.profileImage.value != null
+                    ? DecorationImage(
+                        image: FileImage(controller.profileImage.value!),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+              child: controller.profileImage.value == null
+                  ? Icon(
+                      Icons.person_rounded,
+                      size: 50,
+                      color: AppColor.text(context).withValues(alpha: 0.2),
+                    )
+                  : null,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: CustomInkWell(
+              clickName: AppClick.pickImage,
+              onTap: () => controller.onPickProfile(context),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: AppColor.kPrimary,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.camera_alt_rounded,
+                  color: AppColor.kWhite,
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

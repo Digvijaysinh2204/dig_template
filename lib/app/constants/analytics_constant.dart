@@ -14,6 +14,9 @@ class AppClick {
   static const String verifyOtp = 'verify_otp';
   static const String resendOtp = 'resend_otp';
   static const String registerSubmit = 'register_submit';
+  static const String pickImage = 'pick_image';
+  static const String sourceCamera = 'source_camera';
+  static const String sourceGallery = 'source_gallery';
 
   // Navigation & Tabs
   static const String dashboardTab = 'dashboard_tab';

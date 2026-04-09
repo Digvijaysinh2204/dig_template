@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../../utils/import.dart';
 
 class RegisterController extends GetxController {
@@ -6,6 +8,19 @@ class RegisterController extends GetxController {
   final tfEmailController = TextEditingController();
 
   RxBool isLoading = false.obs;
+  Rx<File?> profileImage = Rx<File?>(null);
+
+  void onPickProfile(BuildContext context) {
+    MediaService.instance.showMediaPicker(
+      context: context,
+      crop: true,
+      onMediaSelected: (files) {
+        if (files.isNotEmpty) {
+          profileImage.value = files.first;
+        }
+      },
+    );
+  }
 
   void onRegister() {
     if (tfNameController.text.isEmpty) {
@@ -33,6 +48,7 @@ class RegisterController extends GetxController {
         name: tfNameController.text.trim(),
         email: tfEmailController.text.trim(),
         mobile: phoneNumber,
+        profilePic: profileImage.value?.path,
         createdAt: DateTime.now().toIso8601String(),
       );
 

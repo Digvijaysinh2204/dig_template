@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import '../utils/import.dart';
 
 class AnalyticsService extends GetxService {

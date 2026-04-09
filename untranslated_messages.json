@@ -1,1 +1,15 @@
-{}
+{
+  "gu": [
+    "camera",
+    "gallery",
+    "video",
+    "selectMedia"
+  ],
+
+  "hi": [
+    "camera",
+    "gallery",
+    "video",
+    "selectMedia"
+  ]
+}

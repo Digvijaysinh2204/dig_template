@@ -19,6 +19,7 @@ class AppBinding extends Bindings {
     Get.put<AnalyticsService>(AnalyticsService(), permanent: true);
     Get.put<ToastService>(ToastService(), permanent: true);
     Get.put<UserService>(UserService(), permanent: true);
+    Get.put<MediaService>(MediaService(), permanent: true);
     if (AppConstant.isFirebaseEnabled) {
       Get.put<CrashlyticsService>(CrashlyticsService(), permanent: true);
       Get.put<NotificationService>(NotificationService(), permanent: true);
