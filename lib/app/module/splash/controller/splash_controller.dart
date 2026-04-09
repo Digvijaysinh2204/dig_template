@@ -1,4 +1,5 @@
 import '../../../utils/import.dart';
+
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late final AnimationController controller;
@@ -13,11 +14,13 @@ class SplashController extends GetxController
     controller.forward();
     super.onInit();
   }
+
   @override
   void onReady() {
     _startInitialization();
     super.onReady();
   }
+
   Future<void> _startInitialization() async {
     final stopwatch = Stopwatch()..start();
     try {
@@ -43,6 +46,7 @@ class SplashController extends GetxController
       _navigateNext();
     }
   }
+
   void _navigateNext() {
     final isLogin = StoreData.readData<bool>(StoreKey.isLogin) ?? false;
     if (isLogin) {
@@ -51,6 +55,7 @@ class SplashController extends GetxController
       Get.offAllNamed(AppRoute.auth);
     }
   }
+
   @override
   void onClose() {
     controller.dispose();

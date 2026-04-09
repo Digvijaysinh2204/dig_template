@@ -1,15 +1,19 @@
 import '../../utils/import.dart';
+
 enum DeviceType {
   android,
   ios;
+
   String get value => name;
   static DeviceType fromString(String type) {
     return type.toLowerCase() == 'ios' ? DeviceType.ios : DeviceType.android;
   }
+
   static DeviceType get current {
     return GetPlatform.isIOS ? DeviceType.ios : DeviceType.android;
   }
 }
+
 class DeviceInfoModel {
   final String deviceToken;
   final DeviceType deviceType;

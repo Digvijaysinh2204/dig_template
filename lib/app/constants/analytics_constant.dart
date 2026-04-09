@@ -1,7 +1,7 @@
 library;
 
 /// Centralized Analytics & Click Tracking Constants
-/// 
+///
 /// TO ADD A NEW CLICK EVENT: Add a new static string to [AppClick].
 /// TO ADD A NEW FIREBASE EVENT: Add a new static string to [AnalyticsEvent].
 /// TO ADD A NEW PARAMETER: Add a new static string to [AnalyticsParam].
@@ -28,7 +28,7 @@ class AppClick {
   static const String logout = 'logout';
   static const String deleteAccount = 'delete_account';
   static const String toggleBiometric = 'toggle_biometric';
-  
+
   // Common / Global
   static const String backButton = 'back_button';
   static const String backButtonClick = 'back_button_click';

@@ -14,7 +14,9 @@ class UserService extends GetxService {
   }
 
   void _loadUser() {
-    final userData = StoreData.readData<Map<String, dynamic>>(StoreKey.userData);
+    final userData = StoreData.readData<Map<String, dynamic>>(
+      StoreKey.userData,
+    );
     if (userData != null) {
       _user.value = UserModel.fromJson(userData);
     }
@@ -36,10 +38,10 @@ class UserService extends GetxService {
     await StoreData.removeData(StoreKey.userData);
     await StoreData.setData(StoreKey.isLogin, false);
     await StoreData.removeData(StoreKey.accessToken);
-    
+
     // Clear Analytics
     await Get.find<AnalyticsService>().clearUserData();
-    
+
     Get.offAllNamed(AppRoute.auth);
   }
 }

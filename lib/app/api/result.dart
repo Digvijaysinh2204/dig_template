@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class Result<T> {
   final T? data;
   final String? error;
@@ -23,6 +24,7 @@ class Result<T> {
       error(this.error ?? 'Unknown error', statusCode);
     }
   }
+
   Result<R> map<R>(R Function(T data) transform) {
     final value = data;
     if (value != null) {
@@ -31,6 +33,7 @@ class Result<T> {
       return Result.error(error ?? 'Unknown error', statusCode);
     }
   }
+
   @override
   String toString() =>
       isSuccess ? '✅ Success: $data' : '❌ Error ($statusCode): $error';

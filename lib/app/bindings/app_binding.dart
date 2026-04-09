@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class AppBinding extends Bindings {
   @override
   void dependencies() {

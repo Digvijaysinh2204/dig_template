@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../utils/import.dart';
+
 class DeviceInfoService extends GetxService {
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
   final _deviceData = <String, dynamic>{}.obs;
@@ -15,6 +16,7 @@ class DeviceInfoService extends GetxService {
     await _fetchDeviceInfo();
     return this;
   }
+
   Future<void> _fetchDeviceInfo() async {
     try {
       _packageInfo.value = await PackageInfo.fromPlatform();
@@ -35,6 +37,7 @@ class DeviceInfoService extends GetxService {
       kLog(title: 'DEVICE_INFO_ERROR', content: e);
     }
   }
+
   Map<String, dynamic> _formatAndroidInfo(AndroidDeviceInfo info) {
     return {
       'id': info.id,
@@ -51,6 +54,7 @@ class DeviceInfoService extends GetxService {
       'platform': 'android',
     };
   }
+
   Map<String, dynamic> _formatIosInfo(IosDeviceInfo info) {
     return {
       'name': info.name,

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomExpandText extends StatefulWidget {
   const CustomExpandText({
     super.key,
@@ -16,6 +17,7 @@ class CustomExpandText extends StatefulWidget {
   @override
   State<CustomExpandText> createState() => _CustomExpandTextState();
 }
+
 class _CustomExpandTextState extends State<CustomExpandText> {
   bool _isExpanded = false;
   @override

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomTextView extends Text {
   CustomTextView({
     super.key,

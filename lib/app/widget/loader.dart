@@ -1,10 +1,12 @@
 import '../utils/import.dart';
+
 class Loader extends StatefulWidget {
   const Loader({super.key, this.size = 20});
   final double size;
   @override
   State<Loader> createState() => _LoaderState();
 }
+
 class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
   late final AnimationController _rotationController;
   @override
@@ -15,11 +17,13 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
       duration: const Duration(milliseconds: 900),
     )..repeat();
   }
+
   @override
   void dispose() {
     _rotationController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return RotationTransition(
@@ -31,6 +35,7 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
     );
   }
 }
+
 class _LoaderPainter extends CustomPainter {
   final Color color;
   _LoaderPainter({required this.color});
@@ -58,6 +63,7 @@ class _LoaderPainter extends CustomPainter {
       paint,
     );
   }
+
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

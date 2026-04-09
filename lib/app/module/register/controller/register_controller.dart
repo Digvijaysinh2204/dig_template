@@ -9,11 +9,18 @@ class RegisterController extends GetxController {
 
   void onRegister() {
     if (tfNameController.text.isEmpty) {
-      showToast(message: Get.context!.loc.pleaseEnterName, type: ToastType.error);
+      showToast(
+        message: Get.context!.loc.pleaseEnterName,
+        type: ToastType.error,
+      );
       return;
     }
-    if (tfEmailController.text.isEmpty || !GetUtils.isEmail(tfEmailController.text)) {
-      showToast(message: Get.context!.loc.pleaseEnterValidEmail, type: ToastType.error);
+    if (tfEmailController.text.isEmpty ||
+        !GetUtils.isEmail(tfEmailController.text)) {
+      showToast(
+        message: Get.context!.loc.pleaseEnterValidEmail,
+        type: ToastType.error,
+      );
       return;
     }
 
@@ -30,7 +37,8 @@ class RegisterController extends GetxController {
       );
 
       // Save to user list
-      final List<dynamic> userListJson = StoreData.readData(StoreKey.userList) ?? [];
+      final List<dynamic> userListJson =
+          StoreData.readData(StoreKey.userList) ?? [];
       userListJson.add(newUser.toJson());
       StoreData.setData(StoreKey.userList, userListJson);
 
@@ -42,7 +50,7 @@ class RegisterController extends GetxController {
         message: Get.context!.loc.registrationSuccessful,
         type: ToastType.success,
       );
-      
+
       Get.offAllNamed(AppRoute.mainView);
     });
   }

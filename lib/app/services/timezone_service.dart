@@ -1,5 +1,6 @@
 import 'package:flutter_timezone/flutter_timezone.dart';
 import '../utils/import.dart';
+
 class TimezoneService extends GetxService {
   final _timezone = 'UTC'.obs;
   String get timezone => _timezone.value;
@@ -7,6 +8,7 @@ class TimezoneService extends GetxService {
     await _fetchTimezone();
     return this;
   }
+
   Future<void> _fetchTimezone() async {
     try {
       final currentTimezone = await FlutterTimezone.getLocalTimezone();

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomNoDataFound extends StatelessWidget {
   const CustomNoDataFound({
     super.key,

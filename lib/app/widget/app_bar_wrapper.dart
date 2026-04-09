@@ -1,5 +1,6 @@
 import '../utils/import.dart';
 import 'custom_back_button.dart';
+
 class AppBarWrapper extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWrapper({
     super.key,

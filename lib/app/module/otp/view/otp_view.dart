@@ -8,7 +8,6 @@ class OtpView extends GetView<OtpController> {
   @override
   Widget build(BuildContext context) {
     final loc = context.loc;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final defaultPinTheme = PinTheme(
       width: 60,
@@ -31,7 +30,6 @@ class OtpView extends GetView<OtpController> {
 
     return CustomScaffold(
       isAppBar: true,
-      statusBarDarkIcons: !isDark,
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Column(

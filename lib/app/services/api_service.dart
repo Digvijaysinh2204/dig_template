@@ -1,18 +1,26 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../utils/import.dart';
+
 enum RequestMethod { get, post, put, delete, patch }
+
 extension RequestMethodExtension on RequestMethod {
   String get name {
     switch (this) {
-      case RequestMethod.get: return 'GET';
-      case RequestMethod.post: return 'POST';
-      case RequestMethod.put: return 'PUT';
-      case RequestMethod.delete: return 'DELETE';
-      case RequestMethod.patch: return 'PATCH';
+      case RequestMethod.get:
+        return 'GET';
+      case RequestMethod.post:
+        return 'POST';
+      case RequestMethod.put:
+        return 'PUT';
+      case RequestMethod.delete:
+        return 'DELETE';
+      case RequestMethod.patch:
+        return 'PATCH';
     }
   }
 }
+
 class ApiService extends GetxService {
   static ApiService get instance => Get.find<ApiService>();
   final http.Client _client = http.Client();
@@ -109,6 +117,7 @@ class ApiService extends GetxService {
       if (showLoader) loader.stopLoading();
     }
   }
+
   Uri _buildUri(
     String baseUrl,
     Map<String, dynamic>? queryParams,
@@ -130,8 +139,10 @@ class ApiService extends GetxService {
     final queryString = queryParts.join('&');
     return Uri.parse('$baseUrl?$queryString');
   }
+
   Map<String, String> _buildHeaders(Map<String, String>? customHeaders) {
-    final token = Get.find<StorageService>().readData<String>(StoreKey.accessToken) ?? '';
+    final token =
+        Get.find<StorageService>().readData<String>(StoreKey.accessToken) ?? '';
     final lang = Get.find<LanguageService>().locale.languageCode;
     final now = DateTime.now();
     final timezone = Get.find<TimezoneService>().timezone;
@@ -145,6 +156,7 @@ class ApiService extends GetxService {
       ...?customHeaders,
     };
   }
+
   Map<String, dynamic> _prepareBody(dynamic body) {
     if (!AppConfig.encrypt) {
       return body is Map<String, dynamic> ? body : jsonDecode(jsonEncode(body));
@@ -154,6 +166,7 @@ class ApiService extends GetxService {
     );
     return {'iv': encrypted['iv'], 'encrypted': encrypted['encrypted']};
   }
+
   Future<http.Response> _send({
     required Uri uri,
     required RequestMethod method,
@@ -178,6 +191,7 @@ class ApiService extends GetxService {
     }
     return _sendJson(uri, method, headers, encryptedPayload, timeout);
   }
+
   Future<http.Response> _sendJson(
     Uri uri,
     RequestMethod method,
@@ -193,6 +207,7 @@ class ApiService extends GetxService {
       body: body,
     ).timeout(timeout);
   }
+
   Future<http.Response> _sendMultipart(
     Uri uri,
     RequestMethod method,
@@ -218,16 +233,23 @@ class ApiService extends GetxService {
     final streamed = await req.send().timeout(timeout);
     return http.Response.fromStream(streamed);
   }
+
   dynamic Function(Uri, {Map<String, String>? headers, Object? body})
   _getClientMethod(RequestMethod method) {
     switch (method) {
-      case RequestMethod.post: return _client.post;
-      case RequestMethod.put: return _client.put;
-      case RequestMethod.patch: return _client.patch;
-      case RequestMethod.delete: return _client.delete;
-      default: throw UnsupportedError('Unsupported method');
+      case RequestMethod.post:
+        return _client.post;
+      case RequestMethod.put:
+        return _client.put;
+      case RequestMethod.patch:
+        return _client.patch;
+      case RequestMethod.delete:
+        return _client.delete;
+      default:
+        throw UnsupportedError('Unsupported method');
     }
   }
+
   Future<dynamic> _parseResponse(http.Response response) async {
     try {
       final contentType = response.headers['content-type'] ?? '';
@@ -249,14 +271,17 @@ class ApiService extends GetxService {
       return response.body;
     }
   }
+
   String _extractErrorMessage(dynamic parsed, int statusCode) {
     if (parsed is Map) {
-      if (parsed['statusMessage'] != null) return parsed['statusMessage'].toString();
+      if (parsed['statusMessage'] != null)
+        return parsed['statusMessage'].toString();
       if (parsed['message'] != null) return parsed['message'].toString();
       if (parsed['error'] != null) return parsed['error'].toString();
       if (parsed['msg'] != null) return parsed['msg'].toString();
       if (parsed['data'] != null && parsed['data'] is Map) {
-        if (parsed['data']['message'] != null) return parsed['data']['message'].toString();
+        if (parsed['data']['message'] != null)
+          return parsed['data']['message'].toString();
       }
     }
     if (parsed is String && parsed.isNotEmpty) {
@@ -264,6 +289,7 @@ class ApiService extends GetxService {
     }
     return 'Error $statusCode: Something went wrong';
   }
+
   void _logDetailed({
     required String url,
     required String method,
@@ -313,6 +339,7 @@ class ApiService extends GetxService {
       files: files,
     );
   }
+
   void _logCurl({
     required String url,
     required String method,
@@ -346,15 +373,20 @@ class ApiService extends GetxService {
         }
         for (var i = 0; i < files.length; i++) {
           final file = files[i];
-          b.writeln('  --form \'${file.field}=@${file.filename ?? 'file$i'}\' \\');
+          b.writeln(
+            '  --form \'${file.field}=@${file.filename ?? 'file$i'}\' \\',
+          );
         }
       } else if (payload != null) {
-        b.writeln("  -d '${jsonEncode(payload).replaceAll("'", "'\"'\"'")}' \\");
+        b.writeln(
+          "  -d '${jsonEncode(payload).replaceAll("'", "'\"'\"'")}' \\",
+        );
       }
     }
     b.write('  "$url"');
     kLog(title: 'CURL', content: b.toString());
   }
+
   Future<void> handleUnauthorized() async {
     final loader = Get.find<AppLoadingService>();
     final storage = Get.find<StorageService>();

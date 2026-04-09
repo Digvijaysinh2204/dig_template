@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class StorageService extends GetxService {
   static StorageService get instance => Get.find<StorageService>();
   final GetStorage _box = GetStorage();
@@ -7,6 +8,7 @@ class StorageService extends GetxService {
     kLog(content: 'GetStorage initialized', title: 'INIT');
     return this;
   }
+
   Future<void> setData(String key, dynamic value) async {
     try {
       final encoded = _encodeValue(value);
@@ -20,6 +22,7 @@ class StorageService extends GetxService {
       kLog(title: 'STORE_DATA_ERROR', content: e);
     }
   }
+
   T? readData<T>(String key) {
     try {
       final rawValue = _box.read(key);
@@ -40,6 +43,7 @@ class StorageService extends GetxService {
       return null;
     }
   }
+
   void listen<T>(String key, void Function(T? value) callback) {
     _box.listenKey(key, (rawValue) {
       if (rawValue == null) {
@@ -49,23 +53,28 @@ class StorageService extends GetxService {
       callback(readData<T>(key));
     });
   }
+
   Future<void> removeData(String key) async {
     await _box.remove(key);
     kLog(content: 'Removed: ${_formatKey(key)}', title: 'REMOVE');
   }
+
   Future<void> clear() async {
     await _box.erase();
     kLog(content: 'Storage cleared', title: 'CLEAN');
   }
+
   String _formatKey(String key) {
     return key.replaceAll(RegExp(r'(?=[A-Z])'), '_').toLowerCase();
   }
+
   String _encodeValue(dynamic value) {
     if (value is String || value is num || value is bool) {
       return value.toString();
     }
     return jsonEncode(value);
   }
+
   dynamic _decodeValue(String decrypted) {
     try {
       return jsonDecode(decrypted);
@@ -75,6 +84,7 @@ class StorageService extends GetxService {
       return num.tryParse(decrypted) ?? decrypted;
     }
   }
+
   T? _castTo<T>(dynamic value) {
     if (value is T) return value;
     return null;

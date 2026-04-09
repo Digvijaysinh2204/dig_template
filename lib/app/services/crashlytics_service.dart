@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CrashlyticsService extends GetxService {
   Future<CrashlyticsService> init() async {
     if (!AppConstant.isFirebaseEnabled) return this;
@@ -19,6 +20,7 @@ class CrashlyticsService extends GetxService {
     }
     return this;
   }
+
   Future<void> log(String message) async {
     if (!AppConstant.isFirebaseEnabled) return;
     try {
@@ -27,6 +29,7 @@ class CrashlyticsService extends GetxService {
       kLog(content: 'Failed to log: $e', title: 'CRASHLYTICS ERROR');
     }
   }
+
   Future<void> recordError(
     dynamic error,
     StackTrace? stack, {
@@ -43,6 +46,7 @@ class CrashlyticsService extends GetxService {
       kLog(content: 'Failed to record error: $e', title: 'CRASHLYTICS ERROR');
     }
   }
+
   Future<void> setCustomKey(String key, dynamic value) async {
     if (!AppConstant.isFirebaseEnabled) return;
     try {
@@ -51,6 +55,7 @@ class CrashlyticsService extends GetxService {
       kLog(content: 'Failed to set custom key: $e', title: 'CRASHLYTICS ERROR');
     }
   }
+
   Future<void> setUserIdentifier(String identifier) async {
     if (!AppConstant.isFirebaseEnabled) return;
     try {

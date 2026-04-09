@@ -1,6 +1,8 @@
 import 'dart:ui';
 import '../utils/import.dart';
+
 enum ToastType { success, error, warning, info }
+
 class ToastService extends GetxService {
   static ToastService get instance => Get.find<ToastService>();
   void show({String message = '', ToastType type = ToastType.warning}) {
@@ -83,6 +85,7 @@ class ToastService extends GetxService {
       },
     );
   }
+
   Color _getBackgroundColor(ToastType type) {
     switch (type) {
       case ToastType.success:
@@ -95,6 +98,7 @@ class ToastService extends GetxService {
         return AppColor.kPrimary.withValues(alpha: 0.85);
     }
   }
+
   IconData _getIcon(ToastType type) {
     switch (type) {
       case ToastType.success:
@@ -107,6 +111,7 @@ class ToastService extends GetxService {
         return Icons.info_rounded;
     }
   }
+
   int _getDuration(ToastType type) {
     switch (type) {
       case ToastType.success:

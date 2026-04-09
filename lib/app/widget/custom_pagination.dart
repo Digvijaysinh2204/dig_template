@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomPagination extends StatelessWidget {
   final Future<void> Function()? onRefresh;
   final VoidCallback? onLoadMore;

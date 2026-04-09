@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
@@ -75,6 +76,7 @@ class CustomButton extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildLoader(Color color) => SizedBox(
     height: 22,
     width: 22,
@@ -111,6 +113,7 @@ class CustomButton extends StatelessWidget {
       ],
     );
   }
+
   Gradient? _getGradient(bool disabled) {
     if (disabled || !useGradient) return null;
     return const LinearGradient(

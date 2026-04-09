@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class GlobalLoader extends GetView<AppLoadingService> {
   const GlobalLoader({super.key});
   @override
@@ -9,9 +10,7 @@ class GlobalLoader extends GetView<AppLoadingService> {
       }
       return Container(
         color: Colors.black.withValues(alpha: 0.4),
-        child: const Center(
-          child: Loader(size: 30),
-        ),
+        child: const Center(child: Loader(size: 30)),
       );
     });
   }

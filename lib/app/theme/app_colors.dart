@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class AppColor {
   static const Color kPrimary = Color(0XFF9D3D6C);
   static const Color kSecondary = Color(0xFF9A80AF);
@@ -15,22 +16,20 @@ class AppColor {
   static const Color kDividerLight = Color(0x1A030303);
   static const Color kDividerDark = Color(0x1AFFFFFF);
   static Color text(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark
-          ? kTextDark
-          : kTextLight;
+      Theme.of(context).brightness == Brightness.dark ? kTextDark : kTextLight;
 
   static Color divider(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-          ? kDividerDark
-          : kDividerLight;
+      ? kDividerDark
+      : kDividerLight;
 
   static Color scaffold(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-          ? kScaffoldDark
-          : kScaffoldLight;
+      ? kScaffoldDark
+      : kScaffoldLight;
 
   static Color surface(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
-          ? kWhite.withValues(alpha: 0.05)
-          : kBlack.withValues(alpha: 0.03);
+      ? kWhite.withValues(alpha: 0.05)
+      : kBlack.withValues(alpha: 0.03);
 }

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class CustomCheckBox extends StatelessWidget {
   const CustomCheckBox({
     super.key,

@@ -1,5 +1,6 @@
 import 'package:background_downloader/background_downloader.dart';
 import '../utils/import.dart';
+
 class DownloadService extends GetxService {
   StreamSubscription<TaskUpdate>? _subscription;
   @override
@@ -7,6 +8,7 @@ class DownloadService extends GetxService {
     init();
     super.onInit();
   }
+
   Future<DownloadService> init() async {
     for (final locale in AppLocalizations.supportedLocales) {
       await _configureForLocale(locale);
@@ -14,6 +16,7 @@ class DownloadService extends GetxService {
     await FileDownloader().trackTasks();
     return this;
   }
+
   Future<void> _configureForLocale(Locale locale) async {
     final localizations = lookupAppLocalizations(locale);
     final groupName = 'download_${locale.languageCode}';
@@ -33,10 +36,12 @@ class DownloadService extends GetxService {
       tapOpensFile: true,
     );
   }
+
   String get _notificationGroup {
     final code = Get.find<LanguageService>().locale.languageCode;
     return 'download_$code';
   }
+
   Future<String?> downloadFile({
     required String url,
     String? filename,
@@ -109,9 +114,11 @@ class DownloadService extends GetxService {
     }
     return result.status == TaskStatus.complete ? task.taskId : null;
   }
+
   void dispose() {
     _subscription?.cancel();
   }
+
   String _extractFilenameFromUrl(String url) {
     try {
       final uri = Uri.parse(url);
@@ -124,6 +131,7 @@ class DownloadService extends GetxService {
       return 'download_${DateTime.now().millisecondsSinceEpoch}';
     }
   }
+
   Future<String> _ensureExtension(String filename, String url) async {
     if (filename.contains('.') && filename.split('.').last.length <= 5) {
       return filename;

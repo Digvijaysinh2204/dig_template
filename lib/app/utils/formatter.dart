@@ -1,6 +1,8 @@
 import 'package:dlibphonenumber/phone_number_util.dart';
 import 'package:intl/intl.dart';
+
 import 'import.dart';
+
 extension StringFormatting on String {
   String format({
     String currencyCode = 'EUR',
@@ -27,6 +29,7 @@ extension StringFormatting on String {
     }
   }
 }
+
 class DecimalTextInputFormatter extends TextInputFormatter {
   final int decimalDigits;
   final bool useCommas;
@@ -64,6 +67,7 @@ class DecimalTextInputFormatter extends TextInputFormatter {
       selection: TextSelection.collapsed(offset: newText.length),
     );
   }
+
   String _formatWithCommas(String digits) {
     final buffer = StringBuffer();
     int count = 0;
@@ -75,12 +79,15 @@ class DecimalTextInputFormatter extends TextInputFormatter {
     return buffer.toString().split('').reversed.join('');
   }
 }
+
 class PriceInputFormatter extends DecimalTextInputFormatter {
   PriceInputFormatter() : super(decimalDigits: 2, useCommas: false);
 }
+
 class PoundsInputFormatter extends DecimalTextInputFormatter {
   PoundsInputFormatter() : super(decimalDigits: 2, useCommas: false);
 }
+
 class PhoneNumberFormatter extends TextInputFormatter {
   final String countryCode;
   PhoneNumberFormatter(this.countryCode);
@@ -107,6 +114,7 @@ class PhoneNumberFormatter extends TextInputFormatter {
     }
   }
 }
+
 String currentDateTime(BuildContext context) {
   final now = DateTime.now();
   final locale = Localizations.localeOf(context).toString();

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class LanguageService extends GetxService {
   static LanguageService get instance => Get.find<LanguageService>();
   final _locale = const Locale(AppConstant.defaultLanguage).obs;
@@ -10,6 +11,7 @@ class LanguageService extends GetxService {
     _locale.value = Locale(code);
     return this;
   }
+
   void changeLocale(String code) {
     _locale.value = Locale(code);
     StoreData.setData(StoreKey.languageCode, code);

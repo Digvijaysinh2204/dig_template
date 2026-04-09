@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class ThemeService extends GetxService {
   static ThemeService get instance => Get.find<ThemeService>();
   final Rx<ThemeMode> _themeMode = ThemeMode.light.obs;
@@ -13,6 +14,7 @@ class ThemeService extends GetxService {
     }
     super.onInit();
   }
+
   void changeThemeMode(ThemeMode mode) {
     _themeMode.value = mode;
     if (mode == ThemeMode.system) {

@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 class AutoLinkText extends StatelessWidget {
   final String text;
   final TextStyle? style;
@@ -41,6 +42,7 @@ class AutoLinkText extends StatelessWidget {
     }
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
+
   @override
   Widget build(BuildContext context) {
     final List<TextSpan> spans = [];

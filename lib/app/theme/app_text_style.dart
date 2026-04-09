@@ -1,5 +1,6 @@
 import '../utils/import.dart';
 import 'font_family.dart';
+
 class AppTextStyle {
   static TextStyle _base({
     required double size,
@@ -28,6 +29,7 @@ class AppTextStyle {
       decorationColor: decorationColor,
     );
   }
+
   static TextStyle regular({
     required double size,
     Color? color,

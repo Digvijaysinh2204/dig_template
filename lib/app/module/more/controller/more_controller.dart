@@ -26,8 +26,11 @@ class MoreController extends GetxController {
       onPrimaryAction: () {
         final currentUser = UserService.instance.currentUser;
         if (currentUser != null) {
-          final List<dynamic> userListJson = StoreData.readData(StoreKey.userList) ?? [];
-          userListJson.removeWhere((item) => UserModel.fromJson(item).mobile == currentUser.mobile);
+          final List<dynamic> userListJson =
+              StoreData.readData(StoreKey.userList) ?? [];
+          userListJson.removeWhere(
+            (item) => UserModel.fromJson(item).mobile == currentUser.mobile,
+          );
           StoreData.setData(StoreKey.userList, userListJson);
         }
         UserService.instance.logout();
@@ -44,17 +47,20 @@ class MoreController extends GetxController {
         AdaptiveAction(
           label: loc.light,
           clickName: AppClick.changeTheme,
-          onPressed: () => ThemeService.instance.changeThemeMode(ThemeMode.light),
+          onPressed: () =>
+              ThemeService.instance.changeThemeMode(ThemeMode.light),
         ),
         AdaptiveAction(
           label: loc.dark,
           clickName: AppClick.changeTheme,
-          onPressed: () => ThemeService.instance.changeThemeMode(ThemeMode.dark),
+          onPressed: () =>
+              ThemeService.instance.changeThemeMode(ThemeMode.dark),
         ),
         AdaptiveAction(
           label: loc.system,
           clickName: AppClick.changeTheme,
-          onPressed: () => ThemeService.instance.changeThemeMode(ThemeMode.system),
+          onPressed: () =>
+              ThemeService.instance.changeThemeMode(ThemeMode.system),
         ),
       ],
     );

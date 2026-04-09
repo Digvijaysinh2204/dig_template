@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart' as crypt;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+
 class CryptoService extends GetxService {
   final _base64Key = dotenv.env['API_KEY']!;
   late final _key = crypt.Key.fromBase64(_base64Key);
@@ -15,6 +16,7 @@ class CryptoService extends GetxService {
     }
     return crypt.IV(iv);
   }
+
   Map<String, String> encryptGCM(String plainText) {
     final iv = generateIV();
     final encrypter = crypt.Encrypter(crypt.AES(_key, mode: crypt.AESMode.gcm));
@@ -24,6 +26,7 @@ class CryptoService extends GetxService {
       'encrypted': base64Encode(encrypted.bytes),
     };
   }
+
   String decryptGCM({required String encryptedText, required String ivBase64}) {
     final iv = crypt.IV(base64Decode(ivBase64));
     final encrypter = crypt.Encrypter(crypt.AES(_key, mode: crypt.AESMode.gcm));

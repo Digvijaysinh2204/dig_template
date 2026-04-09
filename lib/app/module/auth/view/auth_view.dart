@@ -74,46 +74,48 @@ class AuthView extends GetView<AuthController> {
   }
 
   Widget _buildPhoneInput(BuildContext context) {
-    return CustomTextField(
-      controller: controller.tfPhoneController,
-      textInputType: TextInputType.phone,
-      textStyle: AppTextStyle.bold(
-        size: 18,
-        color: AppColor.text(context),
-        letterSpacing: 1.2,
-      ),
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-        PhoneNumberFormatter('IN'),
-      ],
-      hintText: context.loc.phoneHint,
-      hintStyle: AppTextStyle.regular(
-        size: 16,
-        color: AppColor.text(context).withValues(alpha: 0.3),
-      ),
-      fillColor: AppColor.surface(context),
-      enableBorderColor: AppColor.text(context).withValues(alpha: 0.1),
-      focusBorderColor: AppColor.kPrimary,
-      borderRadius: 16,
-      prefixIcon: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 12),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomTextView(
-              text: context.loc.phonePrefix,
-              style: AppTextStyle.bold(
-                size: 18,
-                color: AppColor.text(context).withValues(alpha: 0.8),
+    return Obx(
+      () => CustomTextField(
+        controller: controller.tfPhoneController,
+        textInputType: TextInputType.phone,
+        textStyle: AppTextStyle.bold(
+          size: 18,
+          color: AppColor.text(context),
+          letterSpacing: 1.2,
+        ),
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          PhoneNumberFormatter(controller.selectedCountryCode.value),
+        ],
+        hintText: context.loc.phoneHint,
+        hintStyle: AppTextStyle.regular(
+          size: 16,
+          color: AppColor.text(context).withValues(alpha: 0.3),
+        ),
+        fillColor: AppColor.surface(context),
+        enableBorderColor: AppColor.text(context).withValues(alpha: 0.1),
+        focusBorderColor: AppColor.kPrimary,
+        borderRadius: 16,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(left: 20, right: 12),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomTextView(
+                text: context.loc.phonePrefix,
+                style: AppTextStyle.bold(
+                  size: 18,
+                  color: AppColor.text(context).withValues(alpha: 0.8),
+                ),
               ),
-            ),
-            const Gap(12),
-            Container(
-              height: 24,
-              width: 1,
-              color: AppColor.text(context).withValues(alpha: 0.1),
-            ),
-          ],
+              const Gap(12),
+              Container(
+                height: 24,
+                width: 1,
+                color: AppColor.text(context).withValues(alpha: 0.1),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -169,10 +171,7 @@ class AuthView extends GetView<AuthController> {
       onTap: () {},
       child: CustomTextView(
         text: text,
-        style: AppTextStyle.semiBold(
-          size: 13,
-          color: AppColor.kPrimary,
-        ),
+        style: AppTextStyle.semiBold(size: 13, color: AppColor.kPrimary),
       ),
     );
   }

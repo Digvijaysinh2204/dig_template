@@ -1,15 +1,19 @@
 import 'package:dlibphonenumber/dlibphonenumber.dart';
+
 import '../../../utils/import.dart';
+
 class AuthController extends GetxController {
   final tfPhoneController = TextEditingController();
   final PhoneNumberUtil phoneUtil = PhoneNumberUtil.instance;
   final RxBool isLoading = false.obs;
+  final RxString selectedCountryCode = 'IN'.obs;
+
   String? validatePhoneNumber(String value) {
     if (value.isEmpty) {
       return Get.context?.loc.enterValidPhone;
     }
     try {
-      final number = phoneUtil.parse(value, 'IN');
+      final number = phoneUtil.parse(value, selectedCountryCode.value);
       if (!phoneUtil.isValidNumber(number)) {
         return Get.context?.loc.invalidPhoneNumber;
       }
@@ -32,6 +36,7 @@ class AuthController extends GetxController {
       Get.toNamed(AppRoute.otp, arguments: tfPhoneController.text);
     });
   }
+
   @override
   void onClose() {
     tfPhoneController.dispose();

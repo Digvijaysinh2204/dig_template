@@ -1,5 +1,6 @@
 import '../utils/import.dart';
 import 'app_bar_wrapper.dart';
+
 class CustomScaffold extends StatelessWidget {
   static Widget? defaultBackgroundWidget;
   static Widget? defaultDarkBackgroundWidget;
@@ -67,10 +68,14 @@ class CustomScaffold extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: AppColor.kTransparent,
-        statusBarIconBrightness: useDarkIcons ? Brightness.dark : Brightness.light,
+        statusBarIconBrightness: useDarkIcons
+            ? Brightness.dark
+            : Brightness.light,
         statusBarBrightness: useDarkIcons ? Brightness.light : Brightness.dark,
         systemNavigationBarColor: AppColor.kTransparent,
-        systemNavigationBarIconBrightness: useDarkIcons ? Brightness.dark : Brightness.light,
+        systemNavigationBarIconBrightness: useDarkIcons
+            ? Brightness.dark
+            : Brightness.light,
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -87,10 +92,18 @@ class CustomScaffold extends StatelessWidget {
       ),
     );
   }
-  Widget _buildScaffold(BuildContext context, Widget? bg, bool useDarkIcons, ThemeData theme) {
+
+  Widget _buildScaffold(
+    BuildContext context,
+    Widget? bg,
+    bool useDarkIcons,
+    ThemeData theme,
+  ) {
     final hasBg = bg != null;
     return Scaffold(
-      backgroundColor: hasBg ? AppColor.kTransparent : (backgroundColor ?? theme.scaffoldBackgroundColor),
+      backgroundColor: hasBg
+          ? AppColor.kTransparent
+          : (backgroundColor ?? theme.scaffoldBackgroundColor),
       extendBodyBehindAppBar: hasBg || extendBodyBehindAppBar,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
@@ -105,7 +118,9 @@ class CustomScaffold extends StatelessWidget {
               backButtonPressed: backButtonPressed,
               backButtonColor: backButtonColor,
               backButtonBackgroundColor: backButtonBackgroundColor,
-              appBarColor: hasBg ? (appBarColor ?? AppColor.kTransparent) : appBarColor,
+              appBarColor: hasBg
+                  ? (appBarColor ?? AppColor.kTransparent)
+                  : appBarColor,
               statusBarDarkIcons: useDarkIcons,
               centerTitle: centerTitle,
               height: appBarHeight,
@@ -118,30 +133,37 @@ class CustomScaffold extends StatelessWidget {
       ),
     );
   }
+
   Widget? _getBackground(bool isDark) {
     if (isDark) {
       if (darkBackgroundWidget != null) return darkBackgroundWidget;
       if (darkBackgroundImage != null) return _bgImg(darkBackgroundImage!);
-      if (defaultDarkBackgroundWidget != null) return defaultDarkBackgroundWidget;
-      if (defaultDarkBackgroundImage != null) return _bgImg(defaultDarkBackgroundImage!);
-      if (AppConstant.defaultDarkBg.isNotEmpty) return _bgImgPath(AppConstant.defaultDarkBg);
+      if (defaultDarkBackgroundWidget != null)
+        return defaultDarkBackgroundWidget;
+      if (defaultDarkBackgroundImage != null)
+        return _bgImg(defaultDarkBackgroundImage!);
+      if (AppConstant.defaultDarkBg.isNotEmpty)
+        return _bgImgPath(AppConstant.defaultDarkBg);
     } else {
       if (backgroundWidget != null) return backgroundWidget;
       if (backgroundImage != null) return _bgImg(backgroundImage!);
       if (defaultBackgroundWidget != null) return defaultBackgroundWidget;
-      if (defaultBackgroundImage != null) return _bgImg(defaultBackgroundImage!);
-      if (AppConstant.defaultLightBg.isNotEmpty) return _bgImgPath(AppConstant.defaultLightBg);
+      if (defaultBackgroundImage != null)
+        return _bgImg(defaultBackgroundImage!);
+      if (AppConstant.defaultLightBg.isNotEmpty)
+        return _bgImgPath(AppConstant.defaultLightBg);
     }
     return null;
   }
+
   Widget _bgImg(DecorationImage img) => DecoratedBox(
-        decoration: BoxDecoration(image: img),
-        child: const SizedBox.expand(),
-      );
+    decoration: BoxDecoration(image: img),
+    child: const SizedBox.expand(),
+  );
   Widget _bgImgPath(String path) => DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(path), fit: BoxFit.cover),
-        ),
-        child: const SizedBox.expand(),
-      );
+    decoration: BoxDecoration(
+      image: DecorationImage(image: AssetImage(path), fit: BoxFit.cover),
+    ),
+    child: const SizedBox.expand(),
+  );
 }

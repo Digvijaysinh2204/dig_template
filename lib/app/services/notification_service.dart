@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:background_downloader/background_downloader.dart';
 import '../utils/import.dart';
+
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (AppConstant.isFirebaseEnabled) {
@@ -8,6 +9,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
   kLog(content: message.toMap(), title: 'BACKGROUND NOTIFICATION');
 }
+
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
   kLog(
@@ -15,6 +17,7 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
     title: 'BACKGROUND_NOTIFICATION_TAP',
   );
 }
+
 class NotificationService extends GetxService {
   FirebaseMessaging? get messaging =>
       AppConstant.isFirebaseEnabled ? FirebaseMessaging.instance : null;
@@ -40,6 +43,7 @@ class NotificationService extends GetxService {
     }
     return this;
   }
+
   void _initializeFirebaseListeners() {
     if (!AppConstant.isFirebaseEnabled) return;
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -55,12 +59,20 @@ class NotificationService extends GetxService {
       _handleMessageFromData(message.data);
     });
   }
+
   Future<void> _initializeFlutterLocalNotifications() async {
-    const androidSettings = AndroidInitializationSettings('@drawable/notification');
+    const androidSettings = AndroidInitializationSettings(
+      '@drawable/notification',
+    );
     const iosSettings = DarwinInitializationSettings();
-    const settings = InitializationSettings(android: androidSettings, iOS: iosSettings);
+    const settings = InitializationSettings(
+      android: androidSettings,
+      iOS: iosSettings,
+    );
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(_channel);
     await _flutterLocalNotificationsPlugin.initialize(
       settings: settings,
@@ -73,11 +85,13 @@ class NotificationService extends GetxService {
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
   }
+
   Future<void> _showNotification({required RemoteMessage message}) async {
     if (message.notification == null) return;
     if (Platform.isIOS && message.notification?.apple != null) return;
     final androidDetails = AndroidNotificationDetails(
-      _channel.id, _channel.name,
+      _channel.id,
+      _channel.name,
       channelDescription: _channel.description,
       importance: _channel.importance,
       priority: Priority.high,
@@ -86,8 +100,14 @@ class NotificationService extends GetxService {
       color: AppColor.kPrimary,
     );
     const iosDetails = DarwinNotificationDetails(
-      presentAlert: true, presentBadge: true, presentSound: true);
-    final notificationDetails = NotificationDetails(android: androidDetails, iOS: iosDetails);
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+    final notificationDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
     await _flutterLocalNotificationsPlugin.show(
       id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
       title: message.notification?.title,
@@ -96,11 +116,13 @@ class NotificationService extends GetxService {
       payload: jsonEncode(message.data),
     );
   }
+
   void _handleMessageFromData(Map<String, dynamic> data) {
     if (data['type'] == 'Download') {
       FileDownloader().openFile(filePath: data['path']);
     } else {}
   }
+
   Future<void> _handleLaunchNotification() async {
     final launchDetails = await _flutterLocalNotificationsPlugin
         .getNotificationAppLaunchDetails();
@@ -117,18 +139,28 @@ class NotificationService extends GetxService {
       }
     }
   }
+
   Future<void> _setupIOS() async {
     if (Platform.isIOS && AppConstant.isFirebaseEnabled) {
       await messaging?.setForegroundNotificationPresentationOptions(
-        alert: true, badge: true, sound: true);
+        alert: true,
+        badge: true,
+        sound: true,
+      );
     }
   }
+
   Future<void> _requestNotificationPermission() async {
     if (!AppConstant.isFirebaseEnabled) return;
     await messaging?.requestPermission(
-      alert: true, announcement: true, badge: true, sound: true);
+      alert: true,
+      announcement: true,
+      badge: true,
+      sound: true,
+    );
     await getFirebaseToken();
   }
+
   Future<void> getFirebaseToken() async {
     if (!AppConstant.isFirebaseEnabled) return;
     try {
@@ -139,11 +171,15 @@ class NotificationService extends GetxService {
       Get.find<StorageService>().setData(StoreKey.firebaseToken, 'N/A');
     }
   }
+
   Future<void> showCustomNotification({
-    required String title, required String body, required Map<String, dynamic> payload,
+    required String title,
+    required String body,
+    required Map<String, dynamic> payload,
   }) async {
     final androidDetails = AndroidNotificationDetails(
-      _channel.id, _channel.name,
+      _channel.id,
+      _channel.name,
       channelDescription: _channel.description,
       importance: _channel.importance,
       priority: Priority.high,
@@ -151,11 +187,18 @@ class NotificationService extends GetxService {
       icon: '@drawable/notification',
     );
     const iosDetails = DarwinNotificationDetails(
-      presentAlert: true, presentBadge: true, presentSound: true);
-    final details = NotificationDetails(android: androidDetails, iOS: iosDetails);
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
     await _flutterLocalNotificationsPlugin.show(
       id: DateTime.now().millisecondsSinceEpoch.remainder(100000),
-      title: title, body: body,
+      title: title,
+      body: body,
       notificationDetails: details,
       payload: jsonEncode(payload),
     );

@@ -1,4 +1,5 @@
 import '../utils/import.dart';
+
 class NetworkBanner extends StatelessWidget {
   const NetworkBanner({super.key});
   @override
