@@ -3,6 +3,7 @@ import 'dart:io';
 import '../utils/import.dart';
 
 class AnalyticsService extends GetxService {
+  static AnalyticsService get instance => Get.find<AnalyticsService>();
   FirebaseAnalytics? get _analytics =>
       AppConstant.isFirebaseEnabled ? FirebaseAnalytics.instance : null;
   Future<void> setUserIdentifier(UserModel user) async {
@@ -38,11 +39,11 @@ class AnalyticsService extends GetxService {
         }
       }
       await _analytics?.setUserProperty(
-        name: 'device_id',
+        name: AnalyticsParam.deviceId,
         value: deviceInfo.deviceId,
       );
       await _analytics?.setUserProperty(
-        name: 'app_version',
+        name: AnalyticsParam.appVersion,
         value: deviceInfo.packageInfo?.version,
       );
       await logEvent(

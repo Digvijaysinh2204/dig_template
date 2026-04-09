@@ -6,84 +6,76 @@ class MoreView extends GetView<MoreController> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      isAppBar: true,
-      title: CustomTextView(text: context.loc.more),
-      showBackButton: false,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildProfileHeader(context),
-            const Gap(40),
-            _buildSectionHeader(context.loc.settings.toUpperCase()),
-            _buildMenuItem(
-              context,
-              icon: Icons.dark_mode_outlined,
-              title: context.loc.theme,
-              clickName: AppClick.changeTheme,
-              onTap: controller.onChangeTheme,
-            ),
-            _buildMenuItem(
-              context,
-              icon: Icons.language_rounded,
-              title: context.loc.language,
-              clickName: AppClick.changeLanguage,
-              onTap: controller.onChangeLanguage,
-            ),
-            const Gap(32),
-            _buildSectionHeader(context.loc.more.toUpperCase()),
-            _buildMenuItem(
-              context,
-              icon: Icons.privacy_tip_outlined,
-              title: context.loc.privacyPolicy,
-              clickName: AppClick.privacyPolicy,
-              onTap: () {},
-            ),
-            _buildMenuItem(
-              context,
-              icon: Icons.description_outlined,
-              title: context.loc.termsOfService,
-              clickName: AppClick.termsOfService,
-              onTap: () {},
-            ),
-            const Gap(32),
-            _buildSectionHeader(
-              context.loc.logout.toUpperCase(),
-              isDanger: true,
-            ),
-            _buildMenuItem(
-              context,
-              icon: Icons.logout_rounded,
-              title: context.loc.logout,
-              clickName: AppClick.logout,
-              titleColor: AppColor.kError,
-              iconColor: AppColor.kError,
-              onTap: controller.onLogout,
-            ),
-            _buildMenuItem(
-              context,
-              icon: Icons.delete_forever_rounded,
-              title: context.loc.deleteAccount,
-              clickName: AppClick.deleteAccount,
-              titleColor: AppColor.kError,
-              iconColor: AppColor.kError,
-              onTap: controller.onDeleteAccount,
-            ),
-            const Gap(40),
-            Center(
-              child: CustomTextView(
-                text: 'v${Get.find<DeviceInfoService>().appVersion ?? '1.0.0'}',
-                style: AppTextStyle.regular(
-                  size: 12,
-                  color: AppColor.text(context).withValues(alpha: 0.3),
-                ),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildProfileHeader(context),
+          const Gap(40),
+          _buildSectionHeader(context.loc.settings.toUpperCase()),
+          _buildMenuItem(
+            context,
+            icon: Icons.dark_mode_outlined,
+            title: context.loc.theme,
+            clickName: AppClick.changeTheme,
+            onTap: controller.onChangeTheme,
+          ),
+          _buildMenuItem(
+            context,
+            icon: Icons.language_rounded,
+            title: context.loc.language,
+            clickName: AppClick.changeLanguage,
+            onTap: controller.onChangeLanguage,
+          ),
+          const Gap(32),
+          _buildSectionHeader(context.loc.more.toUpperCase()),
+          _buildMenuItem(
+            context,
+            icon: Icons.privacy_tip_outlined,
+            title: context.loc.privacyPolicy,
+            clickName: AppClick.privacyPolicy,
+            onTap: () {},
+          ),
+          _buildMenuItem(
+            context,
+            icon: Icons.description_outlined,
+            title: context.loc.termsOfService,
+            clickName: AppClick.termsOfService,
+            onTap: () {},
+          ),
+          const Gap(32),
+          _buildSectionHeader(context.loc.logout.toUpperCase(), isDanger: true),
+          _buildMenuItem(
+            context,
+            icon: Icons.logout_rounded,
+            title: context.loc.logout,
+            clickName: AppClick.logout,
+            titleColor: AppColor.kError,
+            iconColor: AppColor.kError,
+            onTap: controller.onLogout,
+          ),
+          _buildMenuItem(
+            context,
+            icon: Icons.delete_forever_rounded,
+            title: context.loc.deleteAccount,
+            clickName: AppClick.deleteAccount,
+            titleColor: AppColor.kError,
+            iconColor: AppColor.kError,
+            onTap: controller.onDeleteAccount,
+          ),
+          const Gap(40),
+          Center(
+            child: CustomTextView(
+              text: 'v${Get.find<DeviceInfoService>().appVersion ?? '1.0.0'}',
+              style: AppTextStyle.regular(
+                size: 12,
+                color: AppColor.text(context).withValues(alpha: 0.3),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

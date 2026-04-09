@@ -11,6 +11,7 @@ class MediaService extends GetxService {
   final ImagePicker _picker = ImagePicker();
 
   Future<File?> pickImage({
+    required BuildContext context,
     required ImageSource source,
     bool crop = true,
     CropAspectRatio? aspectRatio,
@@ -24,7 +25,7 @@ class MediaService extends GetxService {
       if (pickedFile == null) return null;
 
       if (crop) {
-        return await cropImage(pickedFile.path, aspectRatio: aspectRatio);
+        return await cropImage(pickedFile.path, context: context, aspectRatio: aspectRatio);
       }
 
       return File(pickedFile.path);
@@ -61,6 +62,7 @@ class MediaService extends GetxService {
 
   Future<File?> cropImage(
     String filePath, {
+    required BuildContext context,
     CropAspectRatio? aspectRatio,
   }) async {
     try {
@@ -69,13 +71,13 @@ class MediaService extends GetxService {
         aspectRatio: aspectRatio,
         uiSettings: [
           AndroidUiSettings(
-            toolbarTitle: 'Crop Image',
+            toolbarTitle: context.loc.cropImage,
             toolbarColor: AppColor.kPrimary,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),
-          IOSUiSettings(title: 'Crop Image', aspectRatioLockEnabled: false),
+          IOSUiSettings(title: context.loc.cropImage, aspectRatioLockEnabled: false),
         ],
       );
       if (croppedFile == null) return null;
@@ -102,6 +104,7 @@ class MediaService extends GetxService {
         clickName: AppClick.sourceCamera,
         onPressed: () async {
           final file = await pickImage(
+            context: context,
             source: ImageSource.camera,
             crop: crop,
             aspectRatio: aspectRatio,
@@ -119,6 +122,7 @@ class MediaService extends GetxService {
             if (files.isNotEmpty) onMediaSelected(files);
           } else {
             final file = await pickImage(
+              context: context,
               source: ImageSource.gallery,
               crop: crop,
               aspectRatio: aspectRatio,
@@ -132,7 +136,7 @@ class MediaService extends GetxService {
     if (allowVideo) {
       actions.add(
         AdaptiveAction(
-          label: 'Video',
+          label: context.loc.video,
           icon: Icons.videocam_rounded,
           clickName: 'source_video',
           onPressed: () async {
@@ -145,7 +149,7 @@ class MediaService extends GetxService {
 
     showAdaptiveActionSheet(
       context: context,
-      title: 'Select Media',
+      title: context.loc.selectMedia,
       actions: actions,
     );
   }
