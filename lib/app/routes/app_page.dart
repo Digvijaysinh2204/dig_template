@@ -32,7 +32,7 @@ abstract class AppPage {
       binding: MainBinding(),
     ),
     GetPage(
-      name: '/TestDetail/:id',
+      name: AppRoute.testDetail,
       page: () => const TestDetailView(),
       binding: TestDetailBinding(),
       preventDuplicates: false,

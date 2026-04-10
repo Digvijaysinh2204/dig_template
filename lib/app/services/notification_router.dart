@@ -1,5 +1,6 @@
-import '../utils/import.dart';
 import 'package:background_downloader/background_downloader.dart';
+
+import '../utils/import.dart';
 
 class NotificationPayload {
   final String? id;
@@ -31,8 +32,11 @@ class NotificationRouter {
 
     switch (payload.type) {
       case 'user_detail':
-        final route = '${AppRoute.testDetail}/${payload.id ?? '0'}';
-        _navigate(route, payload.data);
+        Get.toNamed(
+          AppRoute.testDetail.replaceFirst(':id', payload.id ?? '0'),
+          arguments: payload.data,
+          preventDuplicates: false,
+        );
         break;
       case 'order_update':
         _navigate(AppRoute.main, payload.data);
