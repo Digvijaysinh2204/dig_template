@@ -1,71 +1,88 @@
-# 🏗️ Your "Proper" Flutter Project
+# 🏗️ Premium Flutter Enterprise Boilerplate
 
-Congratulations! You've successfully bootstrapped a high-performance, standardized Flutter project using **DIG CLI**. This template is built for scalability, robustness, and speed.
-
----
-
-## 🔥 Key Highlights
-
-| Concept | Implementation |
-| :--- | :--- |
-| **Architecture** | Scalable folder structure following GetX Best Practices. |
-| **Notifications** | Pre-configured `flutter_local_notifications` for background isolates. |
-| **Assets** | Type-safe, subfolder-based asset generation. |
-| **Native** | Clean iOS `SceneDelegate` and automated Android Signing. |
-| **Cleanup** | Robust handling for unconfigured Firebase (No crashes!). |
+This project follows a **Clean Modular GetX Architecture**, designed for high-performance, maintainability, and enterprise-grade scalability. Every directory follows a strict "Single Responsibility Principle".
 
 ---
 
-## 🚀 Finalizing Your Setup
+## 🏛️ Project Architecture (Folder-by-Folder)
 
-### 1. Configure Firebase (Optional but Recommended)
-This project includes Firebase skeletons. To enable Push Notifications:
-1. **Configure**: Run `flutterfire configure`.
-2. **Download Plists**: Add your generated `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) to their respective native folders.
-3. **Enable**: Go to `main.dart`, `AppBindings`, and `AppDelegate.swift` and uncomment the Firebase initialization lines marked with `TODO(Developer)`.
+### 📂 `lib/app/`
+The heart of the application logic.
 
-### 2. Manage Assets Like a Pro
-Say goodbye to hardcoded strings!
-1. **Add**: Drop your assets into `assets/`. Use subfolders to organize (e.g., `assets/icons/png/`).
-2. **Sync Pubspec**: Ensure your new folders are added to `pubspec.yaml` under the `assets:` section.
-3. **Generate**: Run `dg asset build` (or `dg asset watch`).
-4. **Use**: Access them via generated classes:
-   ```dart
-   import 'package:your_app/generated/assets.dart';
-   
-   // Type-safe and auto-completed!
-   Image.asset(IconsPng.logo);
-   ```
+#### 1. `api/` (Data Layer)
+*   **Purpose**: Handles all network-related logic.
+*   **Networking**: Uses `GetConnect` with a custom `ApiService`.
+*   **Result Pattern**: Wraps API responses in a `Result` type (`Success` or `Failure`) to prevent runtime crashes and handle error states gracefully.
 
-### 3. Localization
-The project is pre-configured for localization. Use `localization_key.dart` for type-safe strings.
+#### 2. `constants/` (Configuration Layer)
+*   **Purpose**: Centralized storage for static keys, environment toggles, and API endpoints. 
+*   **Key Files**: `AppConstant` (Firebase toggle, Base URLs) and `AppConfig` (App-wide settings).
+
+#### 3. `module/` (Feature Layer)
+*   **Purpose**: Follows a **Feature-First** modular structure.
+*   **Pattern**: Each module contains its own `Binding`, `Controller`, and `View`.
+*   **Exports**: Uses `module_export.dart` to flatten imports and make features easily accessible.
+
+#### 4. `routes/` (Routing Layer)
+*   **Purpose**: Decouples navigation from views.
+*   **AppRoute**: Contains static string constants for route names.
+*   **AppPage**: Consolidates `GetPage` definitions, bindings, and dynamic segments (:id).
+
+#### 5. `services/` (Infrastructure Layer)
+*   **Purpose**: Global singletons that manage app-wide lifecycles (FCM, Local Notifications, Storage, Crypto, Network monitoring).
+*   **Status**: Services are initialized at startup (Splash) and persist through the app session.
+
+#### 6. `storage/` (Persistence Layer)
+*   **Purpose**: Wrapper around `GetStorage` or `Hive`.
+*   **Pattern**: Uses `StoreKey` to avoid hardcoded string keys for local cache.
+
+#### 7. `theme/` (Design System)
+*   **Purpose**: Contains the typography (`AppTextStyle`) and color tokens (`AppColor`).
+*   **Best Practice**: Uses `context.theme` and semantic color names for automatic Light/Dark mode support.
+
+#### 8. `widget/` (Shared Component Layer)
+*   **Purpose**: Reusable UI components used across multiple modules (Buttons, TextFields, Scaffolds, Loaders).
+
+---
+
+## 🔄 Core System Workflows
+
+### 🛤️ Routing & Navigation
+We use **Named Routing** for 100% deep-link compatibility.
+- **Normal**: `Get.toNamed(AppRoute.auth)`
+- **Multiplexed (A->B->C)**: `/TestDetail/:id` pattern with unique GetX tagging.
+
+### 🌐 API Communication
+1.  Call `ApiService` method.
+2.  Service returns a `Result` object.
+3.  Controller handles the result:
+    ```dart
+    final result = await Get.find<ApiService>().getData();
+    result.when(
+      success: (data) => _handleData(data),
+      failure: (error) => _showError(error),
+    );
+    ```
+
+### 🔔 Integrated Notifications
+- **FcmService**: Manages Firebase lifecycle.
+- **LocalNotificationService**: Manages local display & tap detection.
+- **NotificationRouter**: Central hub to handle all app-wide redirections based on payload.
 
 ---
 
-## 🛠️ Essential Commands
-
-- **Install Deps**: `flutter pub get`
-- **Build Assets**: `dg asset build`
-- **Run App**: `flutter run`
-- **Release Build**: `dg create apk` (Android) or `dg create ipa` (iOS)
+## 🚀 Quality Standards
+- **Zero-Comment Policy**: The code is kept self-documenting through clean variable and class naming.
+- **Fenix Bindings**: Controllers are initialized only when needed and disposed of when the route is removed.
+- **Type-Safe Assets**: Uses the `dg` CLI to generate classes for local assets, preventing string-path errors.
 
 ---
 
-## 📂 Project Structure
-
-```text
-lib/
-├── app/
-│   ├── api/          # Network & API logic
-│   ├── constants/    # App configurations & keys
-│   ├── modules/      # Your screens (GetX pattern)
-│   ├── routes/       # Centralized routing
-│   ├── services/     # Long-running background services
-│   ├── storage/      # Path provider & storage logic
-│   └── widget/       # Shared UI components
-├── generated/        # Auto-generated assets & localizations
-└── firebase_options.dart # Firebase configuration
-```
+## 📂 Root Directories Summary
+- `assets/`: Organized by category (icons, images, fonts).
+- `generated/`: Auto-generated code for assets and localizations.
+- `lib/`: The main source code.
+- `test/`: Unit and widget tests.
 
 ---
-_Crafted with precision by **DIG CLI**._
+_Engineered for performance. Documented for clarity._
