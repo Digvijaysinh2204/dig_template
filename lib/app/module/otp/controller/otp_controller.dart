@@ -28,7 +28,7 @@ class OtpController extends GetxController {
             message: Get.context!.loc.otpVerifiedSuccess,
             type: ToastType.success,
           );
-          Get.offAllNamed(AppRoute.mainView);
+          Get.offAllNamed(AppRoute.main);
         } else {
           showToast(
             message: Get.context!.loc.otpVerifiedSuccess,

@@ -66,7 +66,7 @@ class RegisterController extends GetxController {
           message: Get.context!.loc.registrationSuccessful,
           type: ToastType.success,
         );
-        Get.offAllNamed(AppRoute.mainView);
+        Get.offAllNamed(AppRoute.main);
       });
     });
   }

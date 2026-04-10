@@ -27,7 +27,7 @@ abstract class AppPage {
       binding: RegisterBinding(),
     ),
     GetPage(
-      name: AppRoute.mainView,
+      name: AppRoute.main,
       page: () => const MainView(),
       binding: MainBinding(),
     ),
