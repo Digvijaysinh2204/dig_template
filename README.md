@@ -1,6 +1,9 @@
 # 🏗️ Premium Flutter Enterprise Boilerplate
 
-This project follows a **Clean Modular GetX Architecture**, designed for high-performance, maintainability, and enterprise-grade scalability. Every directory follows a strict "Single Responsibility Principle".
+[![Powered by DIG CLI](https://img.shields.io/badge/Powered%20by-DIG%20CLI-007DFF?style=for-the-badge&logo=dart&logoColor=white)](https://github.com/Digvijaysinh2204/dig_cli)
+[![Built with: dg](https://img.shields.io/badge/Built%20with-dg%20CLI-FFD700?style=for-the-badge&logo=terminal&logoColor=black)](https://github.com/Digvijaysinh2204/dig_cli)
+
+This project follows a **Clean Modular GetX Architecture** generated and managed via **[DIG CLI](https://github.com/Digvijaysinh2204/dig_cli)**. It is designed for high-performance, maintainability, and enterprise-grade scalability.
 
 ---
 
@@ -85,4 +88,12 @@ We use **Named Routing** for 100% deep-link compatibility.
 - `test/`: Unit and widget tests.
 
 ---
-_Engineered for performance. Documented for clarity._
+## 🛠️ Ecosystem Integration
+This codebase is fully compatible with the **[DIG CLI Engine](https://github.com/Digvijaysinh2204/dig_cli)**. To maximize productivity, use the following commands:
+- `dg asset build`: To sync assets with this architecture.
+- `dg create-module`: To scaffold new features instantly.
+- `dg create apk`: To build release-ready binaries.
+
+---
+**🚀 Powered by [DIG CLI](https://github.com/Digvijaysinh2204/dig_cli) | Engineered by [Digvijaysinh](https://github.com/Digvijaysinh2204)**
+*"Efficiency through Automation."*

@@ -7,6 +7,7 @@ class TimezoneService extends GetxService {
     _fetchTimezone();
     super.onInit();
   }
+
   final _timezone = 'UTC'.obs;
   String get timezone => _timezone.value;
   Future<TimezoneService> init() async {

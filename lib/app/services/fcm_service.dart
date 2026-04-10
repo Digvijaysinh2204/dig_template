@@ -1,7 +1,6 @@
 import 'dart:io';
 import '../utils/import.dart';
 
-
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (AppConstant.isFirebaseEnabled) {

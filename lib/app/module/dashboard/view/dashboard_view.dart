@@ -46,11 +46,7 @@ class DashboardView extends GetView<DashboardController> {
         LocalNotificationService.instance.show(
           title: 'User Detail',
           body: 'Tap to view User $id',
-          payload: {
-            'type': 'user_detail',
-            'id': id,
-            'name': 'User $id',
-          },
+          payload: {'type': 'user_detail', 'id': id, 'name': 'User $id'},
         );
       },
       style: ElevatedButton.styleFrom(

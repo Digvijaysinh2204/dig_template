@@ -1,15 +1,20 @@
 import '../utils/import.dart';
 
-
 class LocalNotificationService extends GetxService {
-  static LocalNotificationService get instance => Get.find<LocalNotificationService>();
+  static LocalNotificationService get instance =>
+      Get.find<LocalNotificationService>();
 
   final _local = FlutterLocalNotificationsPlugin();
 
   Future<LocalNotificationService> init() async {
-    kLog(content: 'Initializing Local Notification Service...', title: 'LOCAL_NOTIF');
-    
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    kLog(
+      content: 'Initializing Local Notification Service...',
+      title: 'LOCAL_NOTIF',
+    );
+
+    const androidSettings = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -17,7 +22,10 @@ class LocalNotificationService extends GetxService {
     );
 
     await _local.initialize(
-      settings: const InitializationSettings(android: androidSettings, iOS: iosSettings),
+      settings: const InitializationSettings(
+        android: androidSettings,
+        iOS: iosSettings,
+      ),
       onDidReceiveNotificationResponse: (res) {
         if (res.payload != null) {
           NotificationRouter.handle(
@@ -29,7 +37,8 @@ class LocalNotificationService extends GetxService {
 
     await _local
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(
           const AndroidNotificationChannel(
             'default_channel',
@@ -41,7 +50,8 @@ class LocalNotificationService extends GetxService {
 
     await _local
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.requestNotificationsPermission();
 
     return this;
@@ -49,7 +59,9 @@ class LocalNotificationService extends GetxService {
 
   Future<void> checkInitialNavigation() async {
     final details = await _local.getNotificationAppLaunchDetails();
-    if (details != null && details.didNotificationLaunchApp && details.notificationResponse?.payload != null) {
+    if (details != null &&
+        details.didNotificationLaunchApp &&
+        details.notificationResponse?.payload != null) {
       NotificationRouter.handle(
         NotificationPayload(jsonDecode(details.notificationResponse!.payload!)),
       );

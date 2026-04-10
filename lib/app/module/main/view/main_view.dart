@@ -29,8 +29,9 @@ class MainView extends GetView<MainController> {
             child: BottomNavigationBar(
               currentIndex: controller.selectedIndex.value,
               onTap: (index) {
-                final clickName =
-                    index == 0 ? AppClick.dashboardTab : AppClick.moreTab;
+                final clickName = index == 0
+                    ? AppClick.dashboardTab
+                    : AppClick.moreTab;
                 AnalyticsService.instance.logClick(
                   widgetName: 'MainView',
                   clickName: clickName,
@@ -40,8 +41,9 @@ class MainView extends GetView<MainController> {
               type: BottomNavigationBarType.fixed,
               backgroundColor: AppColor.surface(context),
               selectedItemColor: AppColor.kPrimary,
-              unselectedItemColor:
-                  AppColor.text(context).withValues(alpha: 0.4),
+              unselectedItemColor: AppColor.text(
+                context,
+              ).withValues(alpha: 0.4),
               elevation: 0,
               items: [
                 BottomNavigationBarItem(

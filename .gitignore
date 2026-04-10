@@ -112,3 +112,4 @@ app.*.symbols
 # Custom
 /untranslated_messages.txt
 /devtools_options.yaml
+/android/.kotlin/

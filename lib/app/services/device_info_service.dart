@@ -8,6 +8,7 @@ class DeviceInfoService extends GetxService {
     _fetchDeviceInfo();
     super.onInit();
   }
+
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
   final _deviceData = <String, dynamic>{}.obs;
   Map<String, dynamic> get deviceData => _deviceData;
