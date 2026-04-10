@@ -1,20 +1,21 @@
 import '../utils/import.dart';
 
 class LanguageService extends GetxService {
-  late Locale locale;
-
-  @override
-  void onInit() {
+  static LanguageService get instance => Get.find<LanguageService>();
+  final _locale = const Locale(AppConstant.defaultLanguage).obs;
+  Locale get locale => _locale.value;
+  Future<LanguageService> init() async {
     final code =
         StoreData.readData<String>(StoreKey.languageCode) ??
         AppConstant.defaultLanguage;
-    locale = Locale(code);
-    super.onInit();
+    _locale.value = Locale(code);
+    return this;
   }
 
   void changeLocale(String code) {
-    locale = Locale(code);
+    _locale.value = Locale(code);
     StoreData.setData(StoreKey.languageCode, code);
-    Get.updateLocale(locale);
+    Get.updateLocale(_locale.value);
+    kLog(title: 'LANGUAGE_CHANGED', content: code);
   }
 }

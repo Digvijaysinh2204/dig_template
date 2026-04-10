@@ -5,23 +5,43 @@ class CustomCircleIconWidget extends StatelessWidget {
     super.key,
     this.clickName,
     required this.onTap,
-    required this.color,
+    this.color,
     required this.child,
+    this.size = 40,
+    this.padding,
+    this.borderColor,
   });
   final String? clickName;
   final VoidCallback onTap;
-  final Color color;
+  final Color? color;
   final Widget child;
+  final double size;
+  final EdgeInsets? padding;
+  final Color? borderColor;
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return CustomInkWell(
-      clickName: clickName ?? 'CustomCircleIconWidget',
+      clickName: clickName != null
+          ? '$clickName ${AppClick.click}'
+          : '${AppClick.iconClick} ${AppClick.click}',
       onTap: onTap,
+      borderRadius: BorderRadius.circular(size / 2),
       child: Container(
-        height: 40,
-        width: 40,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-        child: child,
+        height: size,
+        width: size,
+        padding: padding,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color:
+              color ??
+              (isDark
+                  ? AppColor.kWhite.withValues(alpha: 0.1)
+                  : AppColor.kPrimary.withValues(alpha: 0.1)),
+          border: borderColor != null ? Border.all(color: borderColor!) : null,
+        ),
+        child: Center(child: child),
       ),
     );
   }

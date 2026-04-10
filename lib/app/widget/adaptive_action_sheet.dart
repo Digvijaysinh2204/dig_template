@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import '../utils/import.dart';
 
 Future<void> showAdaptiveActionSheet({
@@ -11,7 +10,6 @@ Future<void> showAdaptiveActionSheet({
   VoidCallback? onCancel,
 }) {
   if (GetPlatform.isIOS) {
-    // ------------------ iOS ------------------
     return showCupertinoModalPopup(
       context: context,
       builder: (context) => CupertinoActionSheet(
@@ -21,8 +19,7 @@ Future<void> showAdaptiveActionSheet({
           textAlign: TextAlign.center,
           style: AppTextStyle.bold(
             size: 18,
-            color: AppColor.kPrimary,
-            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         message: message != null
@@ -30,8 +27,9 @@ Future<void> showAdaptiveActionSheet({
                 text: message,
                 style: AppTextStyle.regular(
                   size: 14,
-                  color: AppColor.kPrimary,
-                  fontWeight: FontWeight.w400,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
               )
             : null,
@@ -54,23 +52,18 @@ Future<void> showAdaptiveActionSheet({
                         a.icon,
                         size: 20,
                         color: a.isDestructive
-                            ? AppColor.kPrimary
-                            : AppColor.k030303,
+                            ? AppColor.kError
+                            : AppColor.kPrimary,
                       ),
                       const SizedBox(width: 8),
                     ],
                     CustomTextView(
                       text: a.label,
                       style: a.isDestructive
-                          ? AppTextStyle.bold(
-                              size: 16,
+                          ? AppTextStyle.bold(size: 17, color: AppColor.kError)
+                          : AppTextStyle.medium(
+                              size: 17,
                               color: AppColor.kPrimary,
-                              fontWeight: FontWeight.w600,
-                            )
-                          : AppTextStyle.regular(
-                              size: 16,
-                              color: AppColor.k030303,
-                              fontWeight: FontWeight.w500,
                             ),
                     ),
                   ],
@@ -80,12 +73,8 @@ Future<void> showAdaptiveActionSheet({
             .toList(),
         cancelButton: CupertinoActionSheetAction(
           child: CustomTextView(
-            text: AppLocalizations.of(context)!.cancel,
-            style: AppTextStyle.bold(
-              size: 16,
-              color: AppColor.kFF5757,
-              fontWeight: FontWeight.w500,
-            ),
+            text: context.loc.cancel,
+            style: AppTextStyle.bold(size: 17, color: AppColor.kPrimary),
           ),
           onPressed: () {
             Get.back();
@@ -95,24 +84,31 @@ Future<void> showAdaptiveActionSheet({
       ),
     );
   } else {
-    // ------------------ Android ------------------
     return showModalBottomSheet(
       context: context,
       elevation: 0,
       backgroundColor: Colors.transparent,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
+      isScrollControlled: true,
       builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: AppColor.kWhite,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 16),
-            // Title
+            const Gap(8),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const Gap(24),
             if (title.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -121,13 +117,12 @@ Future<void> showAdaptiveActionSheet({
                   textAlign: TextAlign.center,
                   style: AppTextStyle.bold(
                     size: 18,
-                    color: AppColor.kPrimary,
-                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
             if (message != null) ...[
-              const SizedBox(height: 6),
+              const Gap(8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: CustomTextView(
@@ -135,92 +130,88 @@ Future<void> showAdaptiveActionSheet({
                   textAlign: TextAlign.center,
                   style: AppTextStyle.regular(
                     size: 14,
-                    color: AppColor.kPrimary,
-                    fontWeight: FontWeight.w400,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                 ),
               ),
             ],
-            const SizedBox(height: 12),
+            const Gap(16),
             const Divider(height: 1),
-
-            // Actions with divider
             ...List.generate(actions.length, (index) {
               final a = actions[index];
               return Column(
                 children: [
                   CustomInkWell(
-                    clickName: '',
+                    clickName: a.clickName ?? '',
                     onTap: () {
                       Get.back();
                       a.onPressed();
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16,
+                        horizontal: 20,
+                      ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (a.iconWidget != null) ...[
                             a.iconWidget!,
-                            const SizedBox(width: 8),
+                            const Gap(16),
                           ] else if (a.icon != null) ...[
                             Icon(
                               a.icon,
-                              size: 20,
+                              size: 22,
                               color: a.isDestructive
-                                  ? AppColor.kPrimary
-                                  : AppColor.k030303,
+                                  ? AppColor.kError
+                                  : Theme.of(context).colorScheme.onSurface
+                                        .withValues(alpha: 0.7),
                             ),
-                            const SizedBox(width: 8),
+                            const Gap(16),
                           ],
-                          Flexible(
+                          Expanded(
                             child: CustomTextView(
                               text: a.label,
-                              overflow: TextOverflow.ellipsis,
-                              style: a.isDestructive
-                                  ? AppTextStyle.bold(
-                                      size: 16,
-                                      color: AppColor.kPrimary,
-                                      fontWeight: FontWeight.w600,
-                                    )
-                                  : AppTextStyle.regular(
-                                      size: 16,
-                                      color: AppColor.k030303,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                              style: AppTextStyle.medium(
+                                size: 16,
+                                color: a.isDestructive
+                                    ? AppColor.kError
+                                    : Theme.of(context).colorScheme.onSurface,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const Divider(height: 1),
+                  if (index != actions.length - 1) const Divider(height: 1),
                 ],
               );
             }),
-            const SizedBox(height: 10),
+            const Gap(8),
             SafeArea(
-              child: CustomInkWell(
-                clickName: '',
-                onTap: () {
-                  Get.back();
-                  if (onCancel != null) onCancel();
-                },
-                child: Container(
-                  color: AppColor.kWhite,
-                  margin: const EdgeInsets.only(top: 8),
-                  child: CustomTextView(
-                    text: AppLocalizations.of(context)!.cancel,
-                    style: AppTextStyle.bold(
-                      size: 16,
-                      color: AppColor.kFF5757,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 8,
+                ),
+                child: CustomButton(
+                  width: double.infinity,
+                  text: context.loc.cancel,
+                  onTap: () {
+                    Get.back();
+                    if (onCancel != null) onCancel();
+                  },
+                  bgColor: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.05),
+                  textColors: Theme.of(context).colorScheme.onSurface,
+                  clickName: 'cancel_action_sheet',
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const Gap(12),
           ],
         ),
       ),
@@ -230,6 +221,7 @@ Future<void> showAdaptiveActionSheet({
 
 class AdaptiveAction {
   final String label;
+  final String? clickName;
   final VoidCallback onPressed;
   final bool isDestructive;
   final IconData? icon;
@@ -237,6 +229,7 @@ class AdaptiveAction {
   AdaptiveAction({
     required this.label,
     required this.onPressed,
+    this.clickName,
     this.isDestructive = false,
     this.icon,
     this.iconWidget,

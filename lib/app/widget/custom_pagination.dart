@@ -1,48 +1,36 @@
-import 'package:flutter/cupertino.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../utils/import.dart';
 
 class CustomPagination extends StatelessWidget {
-  final RefreshController controller;
-  final VoidCallback? onLoading;
-  final VoidCallback? onRefresh;
+  final Future<void> Function()? onRefresh;
+  final VoidCallback? onLoadMore;
   final Widget child;
-
+  final RxBool isLoading;
+  final RxBool hasMore;
   const CustomPagination({
     super.key,
-    required this.controller,
-    required this.onLoading,
-    required this.onRefresh,
+    this.onRefresh,
+    this.onLoadMore,
     required this.child,
+    required this.isLoading,
+    required this.hasMore,
   });
-
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-      controller: controller,
-      onLoading: onLoading,
-      onRefresh: onRefresh,
-      enablePullDown: true,
-      physics: RefreshPhysics(
-        controller: controller,
-        springDescription: const SpringDescription(
-          mass: 2.2,
-          stiffness: 150,
-          damping: 16,
-        ),
-      ),
-      enablePullUp: true,
-      header: CustomHeader(builder: (context, mode) => const SizedBox.shrink()),
-      footer: CustomFooter(
-        builder: (BuildContext context, LoadStatus? mode) {
-          Widget body;
-          body = const SizedBox.shrink();
-
-          return SizedBox(height: 55, child: Center(child: body));
+    return RefreshIndicator(
+      onRefresh: onRefresh ?? () async {},
+      notificationPredicate: (notification) => onRefresh != null,
+      child: NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (scrollInfo.metrics.pixels >=
+              scrollInfo.metrics.maxScrollExtent - 100) {
+            if (!isLoading.value && hasMore.value && onLoadMore != null) {
+              onLoadMore!();
+            }
+          }
+          return false;
         },
+        child: child,
       ),
-      child: child,
     );
   }
 }

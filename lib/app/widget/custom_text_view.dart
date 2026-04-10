@@ -25,7 +25,6 @@ class CustomTextView extends Text {
          textAlign: textAlign,
          overflow: overflow,
        );
-
   static String _processText(
     String text, {
     required bool capitalize,
@@ -34,18 +33,13 @@ class CustomTextView extends Text {
     required bool toLowerCase,
   }) {
     final langCode = Get.find<LanguageService>().locale.languageCode;
-
-    // ❌ If NOT English → return original text
     if (langCode != 'en') {
       return text;
     }
-
-    // ✔ Apply transformations ONLY for English
     if (capitalize) return text.capitalize.toString();
     if (capitalizeFirst) return text.capitalizeFirst.toString();
     if (toUpperCase) return text.toUpperCase();
     if (toLowerCase) return text.toLowerCase();
-
     return text;
   }
 }

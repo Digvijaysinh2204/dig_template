@@ -15,7 +15,6 @@ class TabItemData {
   final Widget? leadingIcon;
   final Widget? trailingIcon;
   final bool enabled;
-
   const TabItemData({
     required this.id,
     required this.title,
@@ -31,7 +30,6 @@ class TabItemData {
     this.trailingIcon,
     this.enabled = true,
   });
-
   TabItemData copyWith({
     String? title,
     int? id,
@@ -82,47 +80,38 @@ class ScrollableAnimatedTabBar extends StatefulWidget {
   final List<TabItemData> tabs;
   final int selectedIndex;
   final ValueChanged<int> onTabChanged;
-
   final EdgeInsets tabPadding;
   final double defaultTabHeight;
   final double tabBorderRadius;
   final double leadingPadding;
   final double trailingPadding;
   final double tabSpacing;
-
   final bool centerSelectedTabInitially;
   final MainAxisSize rowMainAxisSize;
   final ScrollPhysics? scrollPhysics;
-
-  final Color selectedBackgroundColor;
-  final Color unselectedBackgroundColor;
-  final Color selectedTextColor;
-  final Color unselectedTextColor;
-  final Color selectedBorderColor;
-  final Color unselectedBorderColor;
-  final Color disabledBackgroundColor;
-  final Color disabledTextColor;
-  final Color disabledBorderColor;
-
+  final Color? selectedBackgroundColor;
+  final Color? unselectedBackgroundColor;
+  final Color? selectedTextColor;
+  final Color? unselectedTextColor;
+  final Color? selectedBorderColor;
+  final Color? unselectedBorderColor;
+  final Color? disabledBackgroundColor;
+  final Color? disabledTextColor;
+  final Color? disabledBorderColor;
   final double selectedBorderWidth;
   final double unselectedBorderWidth;
   final bool showBorder;
-
   final List<BoxShadow>? selectedShadow;
   final List<BoxShadow>? unselectedShadow;
-
   final TextStyle? selectedTextStyle;
   final TextStyle? unselectedTextStyle;
   final TextStyle? disabledTextStyle;
-
   final Duration animationDuration;
   final Curve animationCurve;
   final Duration scrollAnimationDuration;
   final Curve scrollAnimationCurve;
-
   final Gradient? selectedGradient;
   final Gradient? unselectedGradient;
-
   final BoxDecoration Function(bool isSelected, int index, bool isEnabled)?
   decorationBuilder;
   final Widget Function(
@@ -132,14 +121,12 @@ class ScrollableAnimatedTabBar extends StatefulWidget {
     bool isEnabled,
   )?
   tabBuilder;
-
   final bool enableHapticFeedback;
   final double? tabMinWidth;
   final double? tabMaxWidth;
   final bool shrinkWrap;
   final TabScrollAlignment scrollAlignment;
   final double iconSpacing;
-
   const ScrollableAnimatedTabBar({
     super.key,
     required this.tabs,
@@ -154,15 +141,15 @@ class ScrollableAnimatedTabBar extends StatefulWidget {
     this.centerSelectedTabInitially = false,
     this.rowMainAxisSize = MainAxisSize.min,
     this.scrollPhysics,
-    this.selectedBackgroundColor = AppColor.kPrimary,
-    this.unselectedBackgroundColor = AppColor.kWhite,
-    this.selectedTextColor = Colors.white,
-    this.unselectedTextColor = AppColor.k030303,
-    this.selectedBorderColor = AppColor.kPrimary,
-    this.unselectedBorderColor = AppColor.k161A25,
-    this.disabledBackgroundColor = const Color(0xFFF5F5F5),
-    this.disabledTextColor = const Color(0xFF9E9E9E),
-    this.disabledBorderColor = const Color(0xFFE0E0E0),
+    this.selectedBackgroundColor,
+    this.unselectedBackgroundColor,
+    this.selectedTextColor,
+    this.unselectedTextColor,
+    this.selectedBorderColor,
+    this.unselectedBorderColor,
+    this.disabledBackgroundColor,
+    this.disabledTextColor,
+    this.disabledBorderColor,
     this.selectedBorderWidth = 1,
     this.unselectedBorderWidth = 1,
     this.showBorder = true,
@@ -186,7 +173,6 @@ class ScrollableAnimatedTabBar extends StatefulWidget {
     this.scrollAlignment = TabScrollAlignment.center,
     this.iconSpacing = 6,
   }) : assert(selectedIndex >= 0 && selectedIndex < tabs.length);
-
   @override
   State<ScrollableAnimatedTabBar> createState() =>
       _ScrollableAnimatedTabBarState();
@@ -195,24 +181,21 @@ class ScrollableAnimatedTabBar extends StatefulWidget {
 class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
   late final ScrollController _scrollController;
   late final List<GlobalKey> _tabKeys;
-
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _tabKeys = List.generate(widget.tabs.length, (_) => GlobalKey());
-
     if (widget.centerSelectedTabInitially) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToIndex(widget.selectedIndex);
-      });
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _scrollToIndex(widget.selectedIndex),
+      );
     }
   }
 
   @override
   void didUpdateWidget(covariant ScrollableAnimatedTabBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (widget.tabs.length > _tabKeys.length) {
       _tabKeys.addAll(
         List.generate(widget.tabs.length - _tabKeys.length, (_) => GlobalKey()),
@@ -220,45 +203,36 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
     } else if (widget.tabs.length < _tabKeys.length) {
       _tabKeys.removeRange(widget.tabs.length, _tabKeys.length);
     }
-
     if (oldWidget.selectedIndex != widget.selectedIndex) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _scrollToIndex(widget.selectedIndex);
-      });
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _scrollToIndex(widget.selectedIndex),
+      );
     }
   }
 
   void _scrollToIndex(int index) {
     if (!_scrollController.hasClients) return;
     if (index < 0 || index >= _tabKeys.length) return;
-
     final contextBox = _tabKeys[index].currentContext;
     if (contextBox == null) return;
-
     final renderBox = contextBox.findRenderObject() as RenderBox?;
     if (renderBox == null || !renderBox.hasSize) return;
-
     final min = _scrollController.position.minScrollExtent;
     final max = _scrollController.position.maxScrollExtent;
     if (max <= min) return;
-
     final position = renderBox.localToGlobal(
       Offset.zero,
       ancestor: context.findRenderObject(),
     );
-
     double targetOffset;
-
     switch (widget.scrollAlignment) {
       case TabScrollAlignment.start:
         targetOffset = _scrollController.offset + position.dx;
         break;
-
       case TabScrollAlignment.ensureVisible:
         final start = position.dx;
         final end = start + renderBox.size.width;
         final viewport = MediaQuery.of(context).size.width;
-
         if (start < 0) {
           targetOffset = _scrollController.offset + start;
         } else if (end > viewport) {
@@ -267,14 +241,12 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
           return;
         }
         break;
-
       case TabScrollAlignment.center:
         final tabCenter = position.dx + renderBox.size.width / 2;
         final screenCenter = MediaQuery.of(context).size.width / 2;
         targetOffset = _scrollController.offset + tabCenter - screenCenter;
         break;
     }
-
     _scrollController.animateTo(
       targetOffset.clamp(min, max),
       duration: widget.scrollAnimationDuration,
@@ -282,34 +254,36 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
     );
   }
 
-  BoxDecoration _resolveDecoration(bool isSelected, int index, bool isEnabled) {
+  BoxDecoration _resolveDecoration(
+    bool isSelected,
+    int index,
+    bool isEnabled,
+    bool isDark,
+  ) {
     final tab = widget.tabs[index];
-
     if (tab.decoration != null) return tab.decoration!;
     if (widget.decorationBuilder != null) {
       return widget.decorationBuilder!(isSelected, index, isEnabled);
     }
-
     if (!isEnabled) {
       return BoxDecoration(
         borderRadius: BorderRadius.circular(widget.tabBorderRadius),
         border: widget.showBorder
             ? Border.all(
-                color: widget.disabledBorderColor.withValues(alpha: 0.15),
+                color: widget.disabledBorderColor ?? AppColor.divider(context),
                 width: widget.unselectedBorderWidth,
               )
             : null,
-        color: widget.disabledBackgroundColor,
+        color: widget.disabledBackgroundColor ?? AppColor.scaffold(context),
       );
     }
-
     return BoxDecoration(
       borderRadius: BorderRadius.circular(widget.tabBorderRadius),
       border: widget.showBorder
           ? Border.all(
               color: isSelected
-                  ? widget.selectedBorderColor
-                  : widget.unselectedBorderColor.withValues(alpha: 0.15),
+                  ? (widget.selectedBorderColor ?? AppColor.kPrimary)
+                  : (widget.unselectedBorderColor ?? AppColor.divider(context)),
               width: isSelected
                   ? widget.selectedBorderWidth
                   : widget.unselectedBorderWidth,
@@ -317,10 +291,13 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
           : null,
       color: isSelected
           ? (widget.selectedGradient == null
-                ? widget.selectedBackgroundColor
+                ? (widget.selectedBackgroundColor ?? AppColor.kPrimary)
                 : null)
           : (widget.unselectedGradient == null
-                ? widget.unselectedBackgroundColor
+                ? (widget.unselectedBackgroundColor ??
+                      (Theme.of(context).brightness == Brightness.dark
+                          ? AppColor.kScaffoldDark
+                          : AppColor.kWhite))
                 : null),
       gradient: isSelected
           ? widget.selectedGradient
@@ -333,48 +310,88 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
     TabItemData tab,
     bool isSelected,
     bool isEnabled,
+    bool isDark,
   ) {
     if (tab.textStyle != null) return tab.textStyle!;
-
+    final textColor = AppColor.text(context);
     if (!isEnabled) {
       return widget.disabledTextStyle ??
           AppTextStyle.regular(
-            size: 16,
+            size: 14,
             fontWeight: FontWeight.w600,
-            color: widget.disabledTextColor,
+            color: widget.disabledTextColor ?? textColor.withValues(alpha: 0.3),
           );
     }
-
     return isSelected
         ? widget.selectedTextStyle ??
               AppTextStyle.semiBold(
-                size: 16,
+                size: 14,
                 fontWeight: FontWeight.w600,
-                color: widget.selectedTextColor,
+                color: widget.selectedTextColor ?? AppColor.kWhite,
               )
         : widget.unselectedTextStyle ??
               AppTextStyle.regular(
-                size: 16,
+                size: 14,
                 fontWeight: FontWeight.w600,
-                color: widget.unselectedTextColor,
+                color: widget.unselectedTextColor ?? textColor,
               );
   }
 
-  Widget _buildTabContent(TabItemData tab, bool isSelected, bool isEnabled) {
-    if (tab.customContent != null) {
-      return tab.customContent!;
-    }
-
-    final text = CustomTextView(
-      key: ValueKey('${tab.title}-$isSelected-$isEnabled'),
-      text: tab.title,
-      style: _resolveTextStyle(tab, isSelected, isEnabled),
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return SizedBox(
+      height: widget.defaultTabHeight,
+      child: ListView.separated(
+        controller: _scrollController,
+        scrollDirection: Axis.horizontal,
+        physics: widget.scrollPhysics ?? const BouncingScrollPhysics(),
+        padding: EdgeInsets.only(
+          left: widget.leadingPadding,
+          right: widget.trailingPadding,
+        ),
+        itemCount: widget.tabs.length,
+        separatorBuilder: (context, index) =>
+            SizedBox(width: widget.tabSpacing),
+        itemBuilder: (context, index) {
+          final tab = widget.tabs[index];
+          final isSelected = index == widget.selectedIndex;
+          final isEnabled = tab.enabled;
+          return CustomInkWell(
+            key: _tabKeys[index],
+            onTap: isEnabled ? () => widget.onTabChanged(index) : null,
+            borderRadius: BorderRadius.circular(widget.tabBorderRadius),
+            child: AnimatedContainer(
+              duration: widget.animationDuration,
+              curve: widget.animationCurve,
+              height: tab.height ?? widget.defaultTabHeight,
+              padding: widget.tabPadding,
+              decoration: _resolveDecoration(
+                isSelected,
+                index,
+                isEnabled,
+                isDark,
+              ),
+              child: _buildTabContent(tab, isSelected, isEnabled, isDark),
+            ),
+          );
+        },
+      ),
     );
+  }
 
-    if (tab.leadingIcon == null && tab.trailingIcon == null) {
-      return text;
-    }
-
+  Widget _buildTabContent(
+    TabItemData tab,
+    bool isSelected,
+    bool isEnabled,
+    bool isDark,
+  ) {
+    if (tab.customContent != null) return tab.customContent!;
+    final text = CustomTextView(
+      text: tab.title,
+      style: _resolveTextStyle(tab, isSelected, isEnabled, isDark),
+    );
+    if (tab.leadingIcon == null && tab.trailingIcon == null) return text;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -389,93 +406,5 @@ class _ScrollableAnimatedTabBarState extends State<ScrollableAnimatedTabBar> {
         ],
       ],
     );
-  }
-
-  Widget _buildDefaultTab(
-    TabItemData tab,
-    bool isSelected,
-    int index,
-    bool isEnabled,
-  ) {
-    return AnimatedContainer(
-      key: _tabKeys[index],
-      duration: widget.animationDuration,
-      curve: widget.animationCurve,
-      height: tab.height ?? widget.defaultTabHeight,
-      padding: tab.padding ?? widget.tabPadding,
-      constraints: BoxConstraints(
-        minWidth: widget.tabMinWidth ?? 0,
-        maxWidth: widget.tabMaxWidth ?? double.infinity,
-      ),
-      decoration: _resolveDecoration(isSelected, index, isEnabled),
-      child: Center(
-        child: AnimatedSwitcher(
-          duration: widget.animationDuration,
-          child: _buildTabContent(tab, isSelected, isEnabled),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTabItem(int index) {
-    final tab = widget.tabs[index];
-    final isSelected = widget.selectedIndex == index;
-    final isEnabled = tab.enabled;
-
-    final content = widget.tabBuilder != null
-        ? widget.tabBuilder!(tab, isSelected, index, isEnabled)
-        : _buildDefaultTab(tab, isSelected, index, isEnabled);
-
-    return Semantics(
-      selected: isSelected,
-      enabled: isEnabled,
-      button: true,
-      label: tab.title,
-      child: CustomInkWell(
-        key: ValueKey('tab_${tab.title}_$index'),
-        clickName: tab.analyticsEventName ?? '',
-        onTap: isEnabled
-            ? () {
-                if (widget.enableHapticFeedback) {
-                  HapticFeedback.lightImpact();
-                }
-                if (!isSelected) {
-                  widget.onTabChanged(index);
-                }
-                tab.onTap?.call();
-              }
-            : null,
-        onLongPress: isEnabled ? tab.onLongPress : null,
-        child: content,
-      ),
-    ).paddingOnly(
-      left: index == 0 ? widget.leadingPadding : 0,
-      right: index == widget.tabs.length - 1
-          ? widget.trailingPadding
-          : widget.tabSpacing,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: _scrollController,
-      scrollDirection: Axis.horizontal,
-      physics:
-          widget.scrollPhysics ??
-          (widget.shrinkWrap
-              ? const NeverScrollableScrollPhysics()
-              : const ClampingScrollPhysics()),
-      child: Row(
-        mainAxisSize: widget.rowMainAxisSize,
-        children: List.generate(widget.tabs.length, _buildTabItem),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
   }
 }

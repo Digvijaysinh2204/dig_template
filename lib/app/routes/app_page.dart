@@ -1,14 +1,30 @@
 import '../module/module_export.dart';
+import '../module/test_detail/test_detail_binding.dart';
 import '../utils/import.dart';
 
-class AppPage {
+abstract class AppPage {
   AppPage._();
-
-  static final routers = <GetPage>[
+  static const String initial = AppRoute.splash;
+  static final List<GetPage> routes = [
     GetPage(
-      name: AppRoute.splashView,
+      name: AppRoute.splash,
       page: () => const SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: AppRoute.auth,
+      page: () => const AuthView(),
+      binding: AuthBinding(),
+    ),
+    GetPage(
+      name: AppRoute.otp,
+      page: () => const OtpView(),
+      binding: OtpBinding(),
+    ),
+    GetPage(
+      name: AppRoute.registerView,
+      page: () => const RegisterView(),
+      binding: RegisterBinding(),
     ),
     GetPage(
       name: AppRoute.mainView,
@@ -16,9 +32,10 @@ class AppPage {
       binding: MainBinding(),
     ),
     GetPage(
-      name: AppRoute.profileView,
-      page: () => const ProfileView(),
-      binding: ProfileBinding(),
+      name: '/TestDetail/:id',
+      page: () => const TestDetailView(),
+      binding: TestDetailBinding(),
+      preventDuplicates: false,
     ),
   ];
 }

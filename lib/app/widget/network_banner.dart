@@ -2,13 +2,11 @@ import '../utils/import.dart';
 
 class NetworkBanner extends StatelessWidget {
   const NetworkBanner({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = context.loc;
     final network = Get.find<NetworkService>();
     final topPadding = MediaQuery.of(context).padding.top;
-
     return Obx(() {
       return AnimatedSwitcher(
         duration: const Duration(milliseconds: 600),

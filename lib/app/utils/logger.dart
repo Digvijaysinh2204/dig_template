@@ -1,21 +1,22 @@
-import 'dart:developer' show log;
-
+import 'dart:developer' as dev;
 import 'import.dart';
 
 void kLog({required dynamic content, String title = ''}) {
   if (kReleaseMode || AppConfig.currentEnvironment == Environment.live) return;
-
+  final String name = title.isEmpty ? 'DEBUG' : title.toUpperCase();
   try {
-    final encoded = _toJsonIfNeeded(content);
-    log(encoded, name: title);
-  } catch (_) {
-    log(content.toString(), name: title);
+    String message;
+    if (content is Map || content is List) {
+      try {
+        message = const JsonEncoder.withIndent('  ').convert(content);
+      } catch (_) {
+        message = content.toString();
+      }
+    } else {
+      message = content.toString();
+    }
+    dev.log(message, name: name);
+  } catch (e) {
+    dev.log(content.toString(), name: name);
   }
-}
-
-String _toJsonIfNeeded(dynamic content) {
-  if (content is Map || content is List) {
-    return jsonEncode(content);
-  }
-  return content.toString();
 }

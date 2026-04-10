@@ -7,38 +7,32 @@ class CustomBackButton extends StatelessWidget {
     this.color,
     this.iconColor,
   });
-
   final Color? color;
   final Color? iconColor;
-
   final void Function()? onPressed;
-
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CustomCircleIconWidget(
-          onTap: () {
-            if (onPressed != null) {
-              onPressed!.call();
-            } else {
-              Get.back(closeOverlays: true);
-            }
-          },
-          color: color ?? AppColor.k40434C,
-          child: SvgPicture.asset(
-            IconsSvg.icBack,
-            fit: BoxFit.scaleDown,
-            width: 20,
-            height: 20,
-            colorFilter: ColorFilter.mode(
-              iconColor ?? Colors.white,
-              BlendMode.srcIn,
-            ),
-          ),
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final textColor = isDark ? AppColor.kTextDark : AppColor.kTextLight;
+    return CustomInkWell(
+      clickName: '${AppClick.backButtonClick} ${AppClick.click}',
+      onTap: onPressed ?? () => Get.back(closeOverlays: true),
+      child: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          color: color ?? textColor.withValues(alpha: 0.05),
+          shape: BoxShape.circle,
         ),
-      ],
+        child: Icon(
+          GetPlatform.isIOS
+              ? Icons.arrow_back_ios_new_rounded
+              : Icons.arrow_back_rounded,
+          size: 18,
+          color: iconColor ?? textColor,
+        ),
+      ),
     );
   }
 }

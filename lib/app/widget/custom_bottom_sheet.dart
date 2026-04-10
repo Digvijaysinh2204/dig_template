@@ -56,7 +56,6 @@ class _CustomBottomSheetContainer extends StatelessWidget {
   final VoidCallback? onClose;
   final bool showCloseButton;
   final bool autoHideFooterOnKeyboard;
-
   const _CustomBottomSheetContainer({
     this.title,
     this.titleWidget,
@@ -69,7 +68,6 @@ class _CustomBottomSheetContainer extends StatelessWidget {
     required this.showCloseButton,
     required this.autoHideFooterOnKeyboard,
   });
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -103,7 +101,6 @@ class _SheetBody extends StatelessWidget {
   final VoidCallback? onClose;
   final bool showCloseButton;
   final bool autoHideFooterOnKeyboard;
-
   const _SheetBody({
     this.title,
     this.titleWidget,
@@ -116,16 +113,14 @@ class _SheetBody extends StatelessWidget {
     required this.showCloseButton,
     required this.autoHideFooterOnKeyboard,
   });
-
   @override
   Widget build(BuildContext context) {
     final bool hasTitle = title != null || titleWidget != null;
     final bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom > 0;
-
     return Container(
-      decoration: const BoxDecoration(
-        color: AppColor.kWhite,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Stack(
         children: [
@@ -134,11 +129,13 @@ class _SheetBody extends StatelessWidget {
             children: [
               const Gap(10),
               Container(
-                width: 130,
-                height: 5,
+                width: 40,
+                height: 4,
                 decoration: BoxDecoration(
-                  color: AppColor.k242E49,
-                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(2),
                 ),
               ),
               const Gap(10),
@@ -157,14 +154,19 @@ class _SheetBody extends StatelessWidget {
                                   child: Container(
                                     height: 36,
                                     width: 36,
-                                    decoration: const BoxDecoration(
-                                      color: AppColor.kECEDEE,
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withValues(alpha: 0.05),
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.close,
                                       size: 18,
-                                      color: AppColor.k222B45,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
                                     ),
                                   ),
                                 )
@@ -180,7 +182,9 @@ class _SheetBody extends StatelessWidget {
                                       style: AppTextStyle.bold(
                                         size: 20,
                                         fontWeight: FontWeight.w700,
-                                        color: AppColor.kBlack,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
                                       ),
                                     )
                                   : const SizedBox.shrink()),

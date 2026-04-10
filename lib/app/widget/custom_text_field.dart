@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
     this.suffixIcon,
     this.onFieldSubmitted,
     this.maxLines = 1,
-    this.borderRadius = 10,
+    this.borderRadius = 16,
     this.inputFormatters,
     this.hintStyle,
     this.fillColor,
@@ -30,7 +30,9 @@ class CustomTextField extends StatelessWidget {
     this.cursorColor,
     this.contentPadding,
     this.isDense,
+    this.autofocus = false,
   });
+  final bool autofocus;
   final Color? cursorColor;
   final String? hintText;
   final TextStyle? hintStyle;
@@ -40,7 +42,6 @@ class CustomTextField extends StatelessWidget {
   final bool isPassword;
   final bool readOnly;
   final VoidCallback? onTap;
-
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
   final Color? borderColor;
@@ -59,70 +60,78 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsets scrollPadding;
   final EdgeInsets? contentPadding;
   final bool? isDense;
-
   @override
   Widget build(BuildContext context) {
+    final textColor = AppColor.text(context);
     return TextFormField(
-      onTapOutside: (event) {
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       cursorColor: cursorColor ?? AppColor.kPrimary,
       maxLines: maxLines,
       scrollPadding: scrollPadding,
-      onTap: onTap ?? () {},
+      onTap: onTap,
       decoration: InputDecoration(
         isDense: isDense,
         filled: true,
-        fillColor: fillColor ?? AppColor.kWhite,
-        suffixIcon: suffixIcon,
-        prefixIcon: prefixIcon,
+        fillColor:
+            fillColor ??
+            (Theme.of(context).brightness == Brightness.dark
+                ? AppColor.kPrimary.withValues(alpha: 0.05)
+                : AppColor.kWhite),
+        suffixIcon: suffixIcon != null
+            ? IconTheme(
+                data: IconThemeData(color: textColor, size: 20),
+                child: suffixIcon!,
+              )
+            : null,
+        prefixIcon: prefixIcon != null
+            ? IconTheme(
+                data: IconThemeData(
+                  color: AppColor.kPrimary.withValues(alpha: 0.8),
+                  size: 20,
+                ),
+                child: prefixIcon!,
+              )
+            : null,
         contentPadding:
             contentPadding ??
-            const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-        border: InputBorder.none,
-        hintText: hintText.toString(),
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        hintText: hintText,
         hintStyle:
             hintStyle ??
             AppTextStyle.medium(
               size: 15,
-              color: AppColor.k030303.withValues(alpha: 0.52),
-              fontWeight: FontWeight.w600,
+              color: textColor.withValues(alpha: 0.3),
             ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 1.2,
-            color: enableBorderColor ?? AppColor.k030303.withValues(alpha: 0.3),
+            color:
+                enableBorderColor ??
+                (Theme.of(context).brightness == Brightness.dark
+                    ? AppColor.kPrimary.withValues(alpha: 0.15)
+                    : AppColor.text(context).withValues(alpha: 0.1)),
           ),
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 1.2,
-            color: focusBorderColor ?? AppColor.k9D3D6C,
+            width: 1.5,
+            color: focusBorderColor ?? AppColor.kPrimary,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColor.kError.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(width: 1.5, color: AppColor.kError),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            width: 1.2,
-            color:
-                disableBorderColor ?? AppColor.k030303.withValues(alpha: 0.3),
+            color: disableBorderColor ?? AppColor.kDividerLight,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1.2,
-            color: borderColor ?? AppColor.k030303.withValues(alpha: 0.3),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1.2,
-            color: AppColor.kFF5757.withValues(alpha: 0.3),
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
       ),
       keyboardType: textInputType,
@@ -130,10 +139,6 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       obscureText: isPassword,
       focusNode: focusNode,
-      onEditingComplete: () {
-        if (suffixIcon != null) FocusScope.of(context).nextFocus();
-        FocusScope.of(context).nextFocus();
-      },
       onFieldSubmitted: onFieldSubmitted,
       inputFormatters: [
         FilteringTextInputFormatter.deny(
@@ -145,14 +150,8 @@ class CustomTextField extends StatelessWidget {
       ],
       readOnly: readOnly,
       validator: validator,
-      autofocus: false,
-      style:
-          textStyle ?? AppTextStyle.semiBold(size: 16, color: AppColor.k030303),
-      onChanged: (value) {
-        if (onChanged != null) {
-          onChanged!(value);
-        }
-      },
+      style: textStyle ?? AppTextStyle.semiBold(size: 16, color: textColor),
+      onChanged: onChanged,
     );
   }
 }

@@ -5,7 +5,7 @@ class AppTextStyle {
   static TextStyle _base({
     required double size,
     required String fontFamily,
-    Color color = Colors.black,
+    Color? color,
     double? height,
     FontWeight? weight,
     TextOverflow? overflow,
@@ -32,12 +32,13 @@ class AppTextStyle {
 
   static TextStyle regular({
     required double size,
-    Color color = Colors.black,
+    Color? color,
     double? height,
     FontWeight fontWeight = FontWeight.w400,
     TextOverflow? overflow,
     TextDecoration? decoration,
     Color? decorationColor,
+    double? letterSpacing,
   }) => _base(
     size: size,
     fontFamily: FontFamily.regular.value,
@@ -47,16 +48,17 @@ class AppTextStyle {
     overflow: overflow,
     decoration: decoration,
     decorationColor: decorationColor,
+    letterSpacing: letterSpacing,
   );
-
   static TextStyle medium({
     required double size,
-    Color color = Colors.black,
+    Color? color,
     double? height,
     FontWeight fontWeight = FontWeight.w500,
     TextOverflow? overflow,
     TextDecoration? decoration,
     Color? decorationColor,
+    double? letterSpacing,
   }) => _base(
     size: size,
     fontFamily: FontFamily.medium.value,
@@ -66,16 +68,17 @@ class AppTextStyle {
     overflow: overflow,
     decoration: decoration,
     decorationColor: decorationColor,
+    letterSpacing: letterSpacing,
   );
-
   static TextStyle semiBold({
     required double size,
-    Color color = Colors.black,
+    Color? color,
     double? height,
     FontWeight fontWeight = FontWeight.w600,
     TextOverflow? overflow,
     TextDecoration? decoration,
     Color? decorationColor,
+    double? letterSpacing,
   }) => _base(
     size: size,
     fontFamily: FontFamily.semiBold.value,
@@ -85,16 +88,17 @@ class AppTextStyle {
     overflow: overflow,
     decoration: decoration,
     decorationColor: decorationColor,
+    letterSpacing: letterSpacing,
   );
-
   static TextStyle bold({
     required double size,
-    Color color = Colors.black,
+    Color? color,
     double? height,
     FontWeight fontWeight = FontWeight.w700,
     TextOverflow? overflow,
     TextDecoration? decoration,
     Color? decorationColor,
+    double? letterSpacing,
   }) => _base(
     size: size,
     fontFamily: FontFamily.bold.value,
@@ -104,10 +108,8 @@ class AppTextStyle {
     overflow: overflow,
     decoration: decoration,
     decorationColor: decorationColor,
+    letterSpacing: letterSpacing,
   );
-
-  static TextStyle appBarTitle({
-    double size = 18,
-    Color color = AppColor.kWhite,
-  }) => semiBold(size: size, color: color);
+  static TextStyle appBarTitle({double size = 18, Color? color}) =>
+      semiBold(size: size, color: color);
 }

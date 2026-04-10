@@ -23,22 +23,19 @@ dependencies:
   flutter_svg: ^2.2.4
   gap: ^3.0.1
   cached_network_image: ^3.4.1
-  connectivity_plus: ^7.0.0
-  smooth_page_indicator: ^2.0.1
+  connectivity_plus: ^7.1.0
   image_picker: ^1.2.1
-  image_cropper: ^12.1.1
-  country_code_picker: ^3.4.1
-  dlibphonenumber: ^1.1.59
-  flutter_html: ^3.0.0
-  pull_to_refresh: ^2.0.0
+  image_cropper: ^12.2.0
+  dlibphonenumber: ^1.1.60
   flutter_dotenv: ^6.0.0
   url_launcher: ^6.3.2
   path_provider: ^2.1.5
   encrypt: ^5.0.3
-  device_info_plus: ^12.3.0
+  device_info_plus: ^12.4.0
   toastification: ^3.0.3
   background_downloader: ^9.5.4
-  package_info_plus: ^9.0.0
+  package_info_plus: ^9.0.1
+  pinput: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -49,7 +46,6 @@ flutter:
     - .env
     - assets/
     - assets/fonts/inter/
-    - assets/icons/svg/
   generate: true
   uses-material-design: true
   config:

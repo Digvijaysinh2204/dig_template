@@ -1,5 +1,56 @@
 {
   "@@locale": "en",
+  "@@common_ui": "--- Global / UI Shared Strings ---",
+  "noConnection": "No connection",
+  "somethingWentWrong": "Something went wrong",
+  "noInternetConnection": "No internet connection: {details}",
+  "@noInternetConnection": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "requestTimedOut": "Request timed out after {seconds} seconds",
+  "@requestTimedOut": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "badResponseFormat": "Bad response format: {details}",
+  "@badResponseFormat": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "connectionNotSecure": "Connection not secure",
+  "showLess": "Show less",
+  "readMore": "Read more",
+  "noDataFound": "No data found",
+  "cancel": "Cancel",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "video": "Video",
+  "selectMedia": "Select Media",
+  "cropImage": "Crop Image",
+  "author": "Created by",
+  "and": "and",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "language": "Language",
+  "selectLanguage": "Select Language",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "english": "English",
+  "hindi": "Hindi",
+  "gujarati": "Gujarati",
+  "@@common_download": "--- Common Download Strings ---",
   "downloading": "Downloading {progress}",
   "@downloading": {
     "placeholders": {
@@ -9,96 +60,64 @@
   "downloadComplete": "Download complete",
   "downloadFailed": "Download failed",
   "downloadPaused": "Download paused",
-  "noConnection": "No connection",
-  "somethingWentWrong": "Something went wrong",
-  "noInternetConnection": "No internet connection: {details}",
-  "@noInternetConnection": {
-    "description": "Message shown when there is no internet connection.",
+  "@@module_auth": "--- Module: Auth ---",
+  "welcomeTo": "Welcome to {appName}",
+  "@welcomeTo": {
     "placeholders": {
-      "details": {
+      "appName": {
         "type": "String"
       }
     }
   },
-  "requestTimedOut": "Request timed out after {seconds} seconds",
-  "@requestTimedOut": {
-    "description": "Message for request timeout.",
+  "loginSignupSubtitle": "Welcome back! Sign in to continue",
+  "continueButton": "CONTINUE",
+  "phoneNumber": "Phone Number",
+  "byContinuingAgree": "By continuing, you agree to our",
+  "phonePrefix": "+91",
+  "phoneHint": "Enter Mobile Number",
+  "invalidPhoneNumber": "Invalid phone number for the selected region",
+  "enterValidPhone": "Please enter a valid phone number",
+  "@@module_otp": "--- Module: OTP ---",
+  "verifyOtp": "Verify OTP",
+  "otpSentTo": "We've sent a 4-digit code to {phone}",
+  "@otpSentTo": {
     "placeholders": {
-      "seconds": {
-        "type": "int"
-      }
-    }
-  },
-  "badResponseFormat": "Bad response format: {details}",
-  "@badResponseFormat": {
-    "description": "Message for bad response format.",
-    "placeholders": {
-      "details": {
+      "phone": {
         "type": "String"
       }
     }
   },
-  "connectionNotSecure": "Connection not secure",
-  "camera": "Camera",
-  "photos": "Photos",
-  "permissionRequiredTitle": "{permissionName} Permission Required",
-  "@permissionRequiredTitle": {
-    "description": "Title for permission required dialog.",
-    "placeholders": {
-      "permissionName": {
-        "type": "String"
-      }
-    }
-  },
-  "permissionRequiredMessage": "To use the {permissionName}, you need to grant permission. You can do this in your app settings.",
-  "@permissionRequiredMessage": {
-    "description": "Message for permission required dialog.",
-    "placeholders": {
-      "permissionName": {
-        "type": "String"
-      }
-    }
-  },
-  "cancel": "Cancel",
-  "openSettings": "Open settings",
-  "showLess": "Show less",
-  "readMore": "Read more",
-  "noDataFound": "No data found",
-  "dashboard": "Dashboard",
-  "systemStatus": "System Status",
-  "projectInformation": "Project Information",
-  "bundleId": "Bundle ID",
-  "firebase": "Firebase",
-  "device": "Device",
-  "appVersion": "App Version",
-  "pushedButtonManyTimes": "You have pushed the button this many times:",
-  "profile": "Profile",
+  "didNotReceiveCode": "Didn't receive the code?",
+  "resendOtp": "Resend OTP",
+  "otpVerifiedSuccess": "OTP verified successfully",
+  "otpResentSuccess": "OTP resent successfully",
+  "invalidOtp": "Invalid OTP. Please try again.",
+  "continueBtn": "CONTINUE",
+  "@@module_register": "--- Module: Register ---",
+  "register": "Register",
+  "completeProfile": "Complete your profile",
+  "provideDetailsToContinue": "Please provide your details to continue",
   "fullName": "Full Name",
   "emailAddress": "Email Address",
-  "phoneNumber": "Phone Number",
-  "saveProfile": "Save Profile",
-  "validationError": "Validation Error",
-  "nameAndEmailRequired": "Name and Email are required.",
-  "success": "Success",
-  "profileSavedSuccessfully": "Profile saved successfully!",
-  "errorTitle": "Error",
-  "failedToPickImage": "Failed to pick image: {error}",
-  "@failedToPickImage": {
+  "pleaseEnterName": "Please enter your name",
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "registrationSuccessful": "Registration successful",
+  "@@module_main": "--- Module: Main ---",
+  "dashboard": "Dashboard",
+  "more": "More",
+  "settings": "Settings",
+  "logout": "Logout",
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirmation": "Are you sure you want to delete your account? This action cannot be undone.",
+  "@@module_dashboard": "--- Module: Dashboard ---",
+  "welcomeUser": "Welcome, {name}!",
+  "@welcomeUser": {
     "placeholders": {
-      "error": {
+      "name": {
         "type": "String"
       }
     }
   },
-  "failedToCropImage": "Failed to crop image: {error}",
-  "@failedToCropImage": {
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-  "cropImageTitle": "Crop Image",
-  "selectImageSource": "Select Image Source",
-  "gallery": "Gallery"
+  "successfullyLoggedIn": "You are successfully logged in."
 }

@@ -1,34 +1,16 @@
-import 'dart:async';
-
 import '../utils/import.dart';
 
 class AppLoadingService extends GetxService {
-  int _activeCalls = 0;
-
-  final StreamController<bool> _streamController =
-      StreamController<bool>.broadcast();
-
-  Stream<bool> get stream => _streamController.stream;
-
+  static AppLoadingService get instance => Get.find<AppLoadingService>();
+  final _activeCalls = 0.obs;
+  bool get isLoading => _activeCalls.value > 0;
   void startLoading() {
-    _activeCalls++;
-    _emitLoading();
+    _activeCalls.value++;
   }
 
   void stopLoading() {
-    if (_activeCalls > 0) {
-      _activeCalls--;
-      _emitLoading();
+    if (_activeCalls.value > 0) {
+      _activeCalls.value--;
     }
-  }
-
-  void _emitLoading() {
-    _streamController.add(_activeCalls > 0);
-  }
-
-  @override
-  void onClose() {
-    _streamController.close();
-    super.onClose();
   }
 }

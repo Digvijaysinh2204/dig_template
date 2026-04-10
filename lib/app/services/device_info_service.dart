@@ -1,79 +1,75 @@
 import 'dart:io';
-
 import 'package:package_info_plus/package_info_plus.dart';
-
 import '../utils/import.dart';
 
 class DeviceInfoService extends GetxService {
-  DeviceInfoService._();
-  static final DeviceInfoService instance = DeviceInfoService._();
-
-  final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
-  late Map<String, dynamic> deviceData;
-  PackageInfo? packageInfo;
-  String? deviceId;
-
   @override
   void onInit() {
+    _fetchDeviceInfo();
     super.onInit();
-    fetchAndLogDeviceInfo();
+  }
+  final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
+  final _deviceData = <String, dynamic>{}.obs;
+  Map<String, dynamic> get deviceData => _deviceData;
+  final _packageInfo = Rxn<PackageInfo>();
+  PackageInfo? get packageInfo => _packageInfo.value;
+  final _deviceId = RxnString();
+  String? get deviceId => _deviceId.value;
+  final _appVersion = RxnString();
+  String? get appVersion => _appVersion.value;
+  Future<DeviceInfoService> init() async {
+    await _fetchDeviceInfo();
+    return this;
   }
 
-  Future<void> fetchAndLogDeviceInfo() async {
-    packageInfo = await PackageInfo.fromPlatform();
-    deviceData = await getDeviceInfo();
-    deviceId =
-        deviceData['id'] ?? deviceData['identifierForVendor'] ?? 'unknown';
-    kLog(title: 'DEVICE_INFO', content: deviceData);
-    if (packageInfo != null) {
-      kLog(
-        title: 'PACKAGE_INFO',
-        content: {
-          'appName': packageInfo!.appName,
-          'packageName': packageInfo!.packageName,
-          'version': packageInfo!.version,
-          'buildNumber': packageInfo!.buildNumber,
-        },
-      );
-    }
-  }
-
-  Future<Map<String, dynamic>> getDeviceInfo() async {
+  Future<void> _fetchDeviceInfo() async {
     try {
+      _packageInfo.value = await PackageInfo.fromPlatform();
+      _appVersion.value =
+          '${_packageInfo.value?.version}+${_packageInfo.value?.buildNumber}';
       if (Platform.isAndroid) {
         final android = await _deviceInfo.androidInfo;
-        return _toMap(android);
+        _deviceData.value = _formatAndroidInfo(android);
+        _deviceId.value = android.id;
       } else if (Platform.isIOS) {
         final ios = await _deviceInfo.iosInfo;
-        return _toMap(ios);
-      } else {
-        return {'platform': 'unknown'};
+        _deviceData.value = _formatIosInfo(ios);
+        _deviceId.value = ios.identifierForVendor;
       }
+      kLog(title: 'DEVICE_INFO', content: _deviceData);
+      kLog(title: 'APP_VERSION', content: _appVersion.value);
     } catch (e) {
       kLog(title: 'DEVICE_INFO_ERROR', content: e);
-      return {'error': e.toString()};
     }
   }
 
-  Map<String, dynamic> _toMap(dynamic info) {
-    try {
-      final data = info.data;
-      final map = <String, dynamic>{};
+  Map<String, dynamic> _formatAndroidInfo(AndroidDeviceInfo info) {
+    return {
+      'id': info.id,
+      'model': info.model,
+      'manufacturer': info.manufacturer,
+      'brand': info.brand,
+      'device': info.device,
+      'hardware': info.hardware,
+      'host': info.host,
+      'display': info.display,
+      'product': info.product,
+      'version': info.version.release,
+      'sdk': info.version.sdkInt,
+      'platform': 'android',
+    };
+  }
 
-      if (data is Map) {
-        data.forEach((key, value) {
-          if (key is String) {
-            map[key] = value;
-          } else {
-            map[key.toString()] = value;
-          }
-        });
-      }
-
-      map['platform'] = Platform.operatingSystem;
-      return map;
-    } catch (e) {
-      return {'error': 'Failed to parse device info: $e'};
-    }
+  Map<String, dynamic> _formatIosInfo(IosDeviceInfo info) {
+    return {
+      'name': info.name,
+      'systemName': info.systemName,
+      'systemVersion': info.systemVersion,
+      'model': info.model,
+      'localizedModel': info.localizedModel,
+      'identifierForVendor': info.identifierForVendor,
+      'isPhysicalDevice': info.isPhysicalDevice,
+      'platform': 'ios',
+    };
   }
 }

@@ -1,73 +1,86 @@
 import '../utils/import.dart';
 
-class ExpandableText extends StatelessWidget {
-  final String text;
-  final int trimLines;
-  final TextStyle style;
-  final ExpandableTextController controller;
-
-  const ExpandableText({
+class CustomExpandText extends StatefulWidget {
+  const CustomExpandText({
     super.key,
     required this.text,
     this.trimLines = 3,
-    required this.style,
-    required this.controller,
+    this.style,
+    this.readMoreStyle,
+    this.padding = EdgeInsets.zero,
   });
+  final String text;
+  final int trimLines;
+  final TextStyle? style;
+  final TextStyle? readMoreStyle;
+  final EdgeInsetsGeometry padding;
+  @override
+  State<CustomExpandText> createState() => _CustomExpandTextState();
+}
 
+class _CustomExpandTextState extends State<CustomExpandText> {
+  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final span = TextSpan(text: text, style: style);
-        final tp = TextPainter(
-          text: span,
-          maxLines: trimLines,
-          textDirection: TextDirection.ltr,
-        )..layout(maxWidth: constraints.maxWidth);
-
-        final isOverflowing = tp.didExceedMaxLines;
-
-        return AnimatedBuilder(
-          animation: controller,
-          builder: (context, _) {
-            final loc = AppLocalizations.of(context)!;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  text,
-                  style: style,
-                  maxLines: controller.isExpanded ? null : trimLines,
-                  overflow: controller.isExpanded
+    final theme = Theme.of(context);
+    final textStyle =
+        widget.style ??
+        AppTextStyle.regular(size: 14, color: theme.colorScheme.onSurface);
+    final moreStyle =
+        widget.readMoreStyle ??
+        AppTextStyle.bold(size: 14, color: AppColor.kPrimary);
+    final loc = context.loc;
+    return Padding(
+      padding: widget.padding,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final span = TextSpan(text: widget.text, style: textStyle);
+          final tp = TextPainter(
+            text: span,
+            maxLines: widget.trimLines,
+            textDirection: TextDirection.ltr,
+          )..layout(maxWidth: constraints.maxWidth);
+          if (!tp.didExceedMaxLines) {
+            return Text(widget.text, style: textStyle);
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                alignment: Alignment.topCenter,
+                child: Text(
+                  widget.text,
+                  style: textStyle,
+                  maxLines: _isExpanded ? null : widget.trimLines,
+                  overflow: _isExpanded
                       ? TextOverflow.visible
                       : TextOverflow.ellipsis,
                 ),
-                if (isOverflowing)
-                  GestureDetector(
-                    onTap: controller.toggle,
-                    child: Text(
-                      controller.isExpanded ? loc.showLess : loc.readMore,
-                      style: AppTextStyle.bold(
-                        size: 14,
-                        color: AppColor.k161A25,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          },
-        );
-      },
+              ),
+              const Gap(4),
+              CustomInkWell(
+                onTap: () {
+                  setState(() => _isExpanded = !_isExpanded);
+                  Get.find<AnalyticsService>().logClick(
+                    widgetName: 'CustomExpandText',
+                    clickName: _isExpanded
+                        ? AppClick.showLessClick
+                        : AppClick.readMoreClick,
+                  );
+                },
+                clickName: _isExpanded
+                    ? AppClick.showLessClick
+                    : AppClick.readMoreClick,
+                child: Text(
+                  _isExpanded ? loc.showLess : loc.readMore,
+                  style: moreStyle,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
-  }
-}
-
-class ExpandableTextController extends ChangeNotifier {
-  bool isExpanded = false;
-
-  void toggle() {
-    isExpanded = !isExpanded;
-    notifyListeners();
   }
 }
