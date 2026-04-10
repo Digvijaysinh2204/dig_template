@@ -14,9 +14,6 @@ class UserService extends GetxService {
   void onInit() {
     super.onInit();
     _loadUser();
-    if (!isGuest) {
-      refreshUserProfile();
-    }
   }
 
   void _loadUser() {
@@ -28,18 +25,28 @@ class UserService extends GetxService {
     }
   }
 
-  Future<void> refreshUserProfile() async {
-    final response = await ApiService.request<StatusModel<UserModel>>(
-      method: RequestMethod.get,
-      url: Endpoints.profile,
-      fromJson: (json) => StatusModel<UserModel>.fromJson(
-        json,
-        (data) => UserModel.fromJson(data),
-      ),
-    );
-    if (response.isSuccess && response.data != null) {
-      updateUser(response.data?.data);
+  @override
+  void onReady() {
+    super.onReady();
+    if (!isGuest) {
+      refreshUserProfile(showLoader: false);
     }
+  }
+
+  Future<void> refreshUserProfile({bool showLoader = true}) async {
+    // final response = await ApiService.request<StatusModel<UserModel>>(
+    //   method: RequestMethod.get,
+    //   url: Endpoints.profile,
+    //   showLoader: showLoader,
+    //   fromJson: (json) => StatusModel<UserModel>.fromJson(
+    //     json,
+    //     (data) => UserModel.fromJson(data),
+    //   ),
+    // );
+
+    // if (response.isSuccess && response.data != null) {
+    //   updateUser(response.data?.data);
+    // }
   }
 
   void updateUser(UserModel? user) {
