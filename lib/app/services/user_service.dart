@@ -56,7 +56,6 @@ class UserService extends GetxService {
   Future<void> logout() async {
     final loader = Get.find<AppLoadingService>();
     loader.startLoading();
-
     _user.value = null;
     await StoreData.removeData(StoreKey.userData);
     await StoreData.setData(StoreKey.isLogin, false);
