@@ -26,7 +26,33 @@ extension RequestMethodExtension on RequestMethod {
 class ApiService extends GetxService {
   static ApiService get instance => Get.find<ApiService>();
   final http.Client _client = http.Client();
-  Future<Result<T>> request<T>({
+  static Future<Result<T>> request<T>({
+    required String url,
+    required RequestMethod method,
+    required T Function(dynamic data) fromJson,
+    dynamic body,
+    Map<String, dynamic>? queryParams,
+    Map<String, List<String>>? arrayParams,
+    bool showLoader = true,
+    List<http.MultipartFile>? files,
+    Map<String, String>? customHeaders,
+    Future<void> Function()? onUnauthorized,
+    Duration? timeout,
+  }) => instance._request<T>(
+    url: url,
+    method: method,
+    fromJson: fromJson,
+    body: body,
+    queryParams: queryParams,
+    arrayParams: arrayParams,
+    showLoader: showLoader,
+    files: files,
+    customHeaders: customHeaders,
+    onUnauthorized: onUnauthorized,
+    timeout: timeout,
+  );
+
+  Future<Result<T>> _request<T>({
     required String url,
     required RequestMethod method,
     required T Function(dynamic data) fromJson,
@@ -398,15 +424,6 @@ class ApiService extends GetxService {
   }
 
   Future<void> handleUnauthorized() async {
-    final loader = Get.find<AppLoadingService>();
-    final storage = Get.find<StorageService>();
-    loader.startLoading();
-    await storage.clear();
-    if (AppConstant.isFirebaseEnabled) {
-      final fcmService = Get.find<FcmService>();
-      await fcmService.messaging?.deleteToken();
-      fcmService.getFirebaseToken();
-    }
-    loader.stopLoading();
+    await UserService.instance.logout();
   }
 }
