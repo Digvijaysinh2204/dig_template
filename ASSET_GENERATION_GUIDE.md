@@ -1,187 +1,82 @@
-# Asset Generation - Usage Examples
+# 🎨 Digital Asset Management (DAM) Guide
 
-## 📁 Folder Structure
+The project utilizes the **DIG CLI** to provide a type-safe, subfolder-aware asset generation system. This ensures zero-typo asset usage and organized folder-to-class mapping.
 
-The asset generation system automatically detects your folder structure and creates organized classes:
+---
 
-```
+## 📁 Intelligent Folder Structure
+
+The generator automatically converts your folder hierarchy into structured Dart classes.
+
+| Folder Path | Generated Class Name |
+| :--- | :--- |
+| `assets/icons/svg/` | `IconsSvg` |
+| `assets/icons/png/` | `IconsPng` |
+| `assets/images/backgrounds/` | `ImagesBackgrounds` |
+| `assets/fonts/inter/` | `FontsInter` |
+
+### 🔍 Recommended Structure
+```text
 assets/
-├── icons/
-│   ├── svg/
-│   │   ├── ic_back.svg
-│   │   └── ic_home.svg
-│   └── png/
-│       └── logo.png
-├── bottom_bar/
-│   ├── svg/
-│   │   ├── home.svg
-│   │   └── profile.svg
-│   └── png/
-│       └── background.png
-└── fonts/
-    └── inter/
-        ├── bold.ttf
-        ├── regular.ttf
-        └── semi-bold.ttf
+├── icons/            # App icons (svg/png)
+├── images/           # Illustrations & Photos
+├── background/       # Gradients & Pattern assets
+└── fonts/            # Custom Typography (.ttf/.otf)
 ```
 
-## 🎨 Generated Classes
+---
 
-Based on the above structure, the following classes will be generated:
+## 🚀 Commands & Workflow
 
-### Icons
+### Development Cycles
+| Action | Command | Purpose |
+| :--- | :--- | :--- |
+| **Sync Once** | `dg asset build` | Quick sync of all assets to code. |
+| **Active Dev** | `dg asset watch` | Watches folders and auto-generates on every save. |
 
-- **`IconsSvg`** - For `assets/icons/svg/`
-- **`IconsPng`** - For `assets/icons/png/`
+---
 
-### Bottom Bar
+## 💻 Code Implementation
 
-- **`BottomBarSvg`** - For `assets/bottom_bar/svg/`
-- **`BottomBarPng`** - For `assets/bottom_bar/png/`
-
-### Fonts
-
-- **`FontsInterTtf`** - For `assets/fonts/inter/`
-
-## 💻 Usage in Code
-
-### Import
-
+### 1. The Global Import
+Instead of many small imports, use the centralized gateway:
 ```dart
 import 'package:your_app/generated/assets.dart';
 ```
 
-### Using SVG Icons
-
+### 2. Standard Usage
 ```dart
-import 'package:flutter_svg/flutter_svg.dart';
-
-// Icons from icons/svg folder
+// Type-safe SVG usage
 SvgPicture.asset(IconsSvg.icBack);
-SvgPicture.asset(IconsSvg.icHome);
 
-// Icons from bottom_bar/svg folder
-SvgPicture.asset(BottomBarSvg.home);
-SvgPicture.asset(BottomBarSvg.profile);
-```
-
-### Using PNG Images
-
-```dart
-// Icons from icons/png folder
+// Type-safe Image usage
 Image.asset(IconsPng.logo);
 
-// Images from bottom_bar/png folder
-Image.asset(BottomBarPng.background);
-```
-
-### Using Fonts
-
-```dart
-Text(
-  'Hello World',
-  style: TextStyle(
-    fontFamily: FontsInterTtf.bold,
-  ),
-);
-
-Text(
-  'Regular Text',
-  style: TextStyle(
-    fontFamily: FontsInterTtf.regular,
-  ),
+// Global list support (for dynamic rendering)
+ListView.builder(
+  itemCount: IconsSvg.values.length,
+  itemBuilder: (ctx, idx) => SvgPicture.asset(IconsSvg.values[idx]),
 );
 ```
 
-## ⚙️ Configuration (dig.yaml)
+---
 
+## 🎯 Pro Features
+
+### ⚡ Smart CamelCase
+File names like `ic_home_active.svg` or `home-bg.png` are automatically normalized into `icHomeActive` and `homeBg` in Dart code.
+
+### 🚫 Directory Skipping
+To exclude specific folders (like raw designs or sketches), update `dig.yaml`:
 ```yaml
 assets-dir: assets/
-output-dir: lib/generated
-
-# Optional: Skip specific folders
 skip:
-  - temp
-  - draft
-  - icons/old
+  - raw_designs
+  - .trash
 ```
 
-## 🚀 Commands
+### 🏗️ Automatic Metadata
+Each generated class includes a `values` list, which is perfect for building design systems or icon galleries within the app.
 
-```bash
-# Generate once
-dg asset build
-
-# Watch for changes and auto-regenerate
-dg asset watch
-```
-
-## 📂 Generated File Structure
-
-```
-lib/generated/
-├── assets.dart                    # Main export (import this)
-└── assets/
-    ├── icons/
-    │   ├── icons_svg.dart         # class IconsSvg
-    │   └── icons_png.dart         # class IconsPng
-    ├── icons.dart                 # Export file
-    ├── bottom_bar/
-    │   ├── bottom_bar_svg.dart    # class BottomBarSvg
-    │   └── bottom_bar_png.dart    # class BottomBarPng
-    ├── bottom_bar.dart            # Export file
-    ├── fonts_inter/
-    │   └── fonts_inter_ttf.dart   # class FontsInterTtf
-    └── fonts_inter.dart           # Export file
-```
-
-## 🔍 Sample Generated Code
-
-Here is what a generated file (e.g., `icons_svg.dart`) looks like:
-
-```dart
-// lib/generated/assets/icons/icons_svg.dart
-
-class IconsSvg {
-  IconsSvg._();
-
-  static const String icBack = 'assets/icons/svg/ic_back.svg';
-  static const String icHome = 'assets/icons/svg/ic_home.svg';
-  
-  static const List<String> values = [icBack, icHome];
-}
-```
-
-The main `assets.dart` file exports everything for easy access:
-
-```dart
-// lib/generated/assets.dart
-
-export 'assets/icons.dart';
-export 'assets/bottom_bar.dart';
-export 'assets/fonts_inter.dart';
-```
-
-## 🎯 Key Features
-
-1. **Subfolder-Based Classes**: Each subfolder gets its own class
-   - `assets/bottom_bar/svg/` → `BottomBarSvg`
-   - `assets/top_bar/png/` → `TopBarPng`
-
-2. **Smart Naming**: Automatically converts file names to camelCase
-   - `ic_back.svg` → `icBack`
-   - `semi-bold.ttf` → `semiBold`
-   - `MyIcon.png` → `myIcon`
-
-3. **Type Safety**: All asset paths are constants, preventing typos
-
-4. **Single Import**: Just import `assets.dart` to access everything
-
-5. **Skip Feature**: Exclude specific folders from generation
-
-## 💡 Tips
-
-- Keep your folder structure organized by feature or component
-- Use descriptive folder names (they become class names)
-- Avoid using file extension names as folder names (e.g., don't name a folder `svg`)
-- Use the skip feature to exclude temporary or draft assets
+---
+_Documentation optimized for the high-performance DIG architecture._
