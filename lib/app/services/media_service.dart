@@ -25,7 +25,12 @@ class MediaService extends GetxService {
       if (pickedFile == null) return null;
 
       if (crop) {
-        return await cropImage(pickedFile.path, context: context, aspectRatio: aspectRatio);
+        if (!context.mounted) return null;
+        return await cropImage(
+          pickedFile.path,
+          context: context,
+          aspectRatio: aspectRatio,
+        );
       }
 
       return File(pickedFile.path);
@@ -77,7 +82,10 @@ class MediaService extends GetxService {
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false,
           ),
-          IOSUiSettings(title: context.loc.cropImage, aspectRatioLockEnabled: false),
+          IOSUiSettings(
+            title: context.loc.cropImage,
+            aspectRatioLockEnabled: false,
+          ),
         ],
       );
       if (croppedFile == null) return null;
@@ -109,6 +117,7 @@ class MediaService extends GetxService {
             crop: crop,
             aspectRatio: aspectRatio,
           );
+          if (!context.mounted) return;
           if (file != null) onMediaSelected([file]);
         },
       ),
@@ -127,6 +136,7 @@ class MediaService extends GetxService {
               crop: crop,
               aspectRatio: aspectRatio,
             );
+            if (!context.mounted) return;
             if (file != null) onMediaSelected([file]);
           }
         },

@@ -6,17 +6,14 @@ class DashboardView extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Obx(
-                () => CustomTextView(
+            () => CustomTextView(
               text: context.loc.welcomeUser(controller.userName.value),
-              style: AppTextStyle.bold(
-                size: 24,
-                color: AppColor.text(context),
-              ),
+              style: AppTextStyle.bold(size: 24, color: AppColor.text(context)),
             ),
           ),
           const Gap(10),

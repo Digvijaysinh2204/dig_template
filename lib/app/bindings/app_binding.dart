@@ -7,23 +7,29 @@ class AppBinding extends Bindings {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Get.put<CryptoService>(CryptoService(), permanent: true);
+    // 1. Immediate initialization (Only for base app configuration)
     Get.put<StorageService>(StorageService(), permanent: true);
-    Get.put<ApiService>(ApiService(), permanent: true);
     Get.put<LanguageService>(LanguageService(), permanent: true);
-    Get.put<DeviceInfoService>(DeviceInfoService(), permanent: true);
-    Get.put<TimezoneService>(TimezoneService(), permanent: true);
-    Get.put<NetworkService>(NetworkService(), permanent: true);
     Get.put<ThemeService>(ThemeService(), permanent: true);
-    Get.put<AppLoadingService>(AppLoadingService(), permanent: true);
-    Get.put<AnalyticsService>(AnalyticsService(), permanent: true);
-    Get.put<ToastService>(ToastService(), permanent: true);
-    Get.put<UserService>(UserService(), permanent: true);
-    Get.put<MediaService>(MediaService(), permanent: true);
+
+    // 2. Lazy initialization (Zero memory until used)
+    Get.lazyPut<ApiService>(() => ApiService(), fenix: true);
+    Get.lazyPut<UserService>(() => UserService(), fenix: true);
+    Get.lazyPut<NetworkService>(() => NetworkService(), fenix: true);
+    Get.lazyPut<AppLoadingService>(() => AppLoadingService(), fenix: true);
+    Get.lazyPut<ToastService>(() => ToastService(), fenix: true);
+    
+    // Utilities (Always Lazy)
+    Get.lazyPut<CryptoService>(() => CryptoService(), fenix: true);
+    Get.lazyPut<DeviceInfoService>(() => DeviceInfoService(), fenix: true);
+    Get.lazyPut<TimezoneService>(() => TimezoneService(), fenix: true);
+    Get.lazyPut<AnalyticsService>(() => AnalyticsService(), fenix: true);
+    Get.lazyPut<MediaService>(() => MediaService(), fenix: true);
+
     if (AppConstant.isFirebaseEnabled) {
-      Get.put<CrashlyticsService>(CrashlyticsService(), permanent: true);
-      Get.put<NotificationService>(NotificationService(), permanent: true);
-      Get.put<DownloadService>(DownloadService(), permanent: true);
+      Get.lazyPut<CrashlyticsService>(() => CrashlyticsService(), fenix: true);
+      Get.lazyPut<NotificationService>(() => NotificationService(), fenix: true);
+      Get.lazyPut<DownloadService>(() => DownloadService(), fenix: true);
     }
   }
 }

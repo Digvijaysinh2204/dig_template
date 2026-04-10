@@ -23,6 +23,7 @@ class NotificationService extends GetxService {
       AppConstant.isFirebaseEnabled ? FirebaseMessaging.instance : null;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
   static const String _channelId = 'default_notification_channel_id';
   static const String _channelName = 'Default Notification Channel';
   static const AndroidNotificationChannel _channel = AndroidNotificationChannel(

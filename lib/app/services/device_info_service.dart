@@ -3,6 +3,11 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../utils/import.dart';
 
 class DeviceInfoService extends GetxService {
+  @override
+  void onInit() {
+    _fetchDeviceInfo();
+    super.onInit();
+  }
   final DeviceInfoPlugin _deviceInfo = DeviceInfoPlugin();
   final _deviceData = <String, dynamic>{}.obs;
   Map<String, dynamic> get deviceData => _deviceData;

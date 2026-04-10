@@ -5,10 +5,7 @@ import '../../more/view/more_view.dart';
 class MainController extends GetxController {
   final RxInt selectedIndex = 0.obs;
 
-  final List<Widget> pages = [
-    const DashboardView(),
-    const MoreView(),
-  ];
+  final List<Widget> pages = [const DashboardView(), const MoreView()];
 
   void onTabChanged(int index) {
     selectedIndex.value = index;
