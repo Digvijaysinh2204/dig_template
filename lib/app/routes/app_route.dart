@@ -6,4 +6,5 @@ abstract class AppRoute {
   static const String auth = '/Auth';
   static const String otp = '/Otp';
   static const String registerView = '/Register';
+  static const String testDetail = '/TestDetail';
 }

@@ -1,14 +1,26 @@
 import '../../../utils/import.dart';
-import '../../dashboard/view/dashboard_view.dart';
-import '../../more/view/more_view.dart';
+import '../../module_export.dart';
 
 class MainController extends GetxController {
-  final RxInt selectedIndex = 0.obs;
+  final selectedIndex = 0.obs;
 
-  final List<Widget> pages = [const DashboardView(), const MoreView()];
+  final pages = <Widget>[const DashboardView(), const MoreView()];
+
+  @override
+  void onReady() {
+    super.onReady();
+    Get.find<LocalNotificationService>().checkInitialNavigation();
+    if (AppConstant.isFirebaseEnabled) {
+      Get.find<FcmService>().checkInitialNavigation();
+    }
+  }
 
   void onTabChanged(int index) {
     selectedIndex.value = index;
-    kLog(title: 'TAB_CHANGED', content: 'Index: $index');
+    if (index == 0) {
+      Get.find<DashboardController>().onInit();
+    } else if (index == 1) {
+      Get.find<MoreController>().onInit();
+    }
   }
 }

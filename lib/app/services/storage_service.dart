@@ -4,8 +4,7 @@ class StorageService extends GetxService {
   static StorageService get instance => Get.find<StorageService>();
   final GetStorage _box = GetStorage();
   Future<StorageService> init() async {
-    await GetStorage.init();
-    kLog(content: 'GetStorage initialized', title: 'INIT');
+    kLog(content: 'StorageService ready', title: 'INIT');
     return this;
   }
 

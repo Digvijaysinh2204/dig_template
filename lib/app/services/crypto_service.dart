@@ -6,8 +6,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
 class CryptoService extends GetxService {
-  final _base64Key = dotenv.env['API_KEY'] ?? 'dummy_key_for_testing_123456789012';
-  late final _key = crypt.Key.fromBase64(_base64Key);
+  final _base64Key = dotenv.env['API_KEY'] ?? '';
+  late final _key = crypt.Key.fromBase64(
+    base64Encode(utf8.encode(_base64Key.substring(0, 32))),
+  );
   crypt.IV generateIV() {
     final rand = Random.secure();
     final iv = Uint8List(12);

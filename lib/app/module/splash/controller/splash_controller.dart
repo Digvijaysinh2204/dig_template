@@ -4,13 +4,14 @@ class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late final AnimationController controller;
   late final Animation<double> animation;
+
   @override
   void onInit() {
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1000),
     );
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeOutCubic);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
     super.onInit();
   }
@@ -22,24 +23,16 @@ class SplashController extends GetxController
   }
 
   Future<void> _startInitialization() async {
-    final stopwatch = Stopwatch()..start();
     try {
       await Get.find<StorageService>().init();
-      await Get.find<LanguageService>().init();
-      await Get.find<DeviceInfoService>().init();
-      await Get.find<TimezoneService>().init();
-      await Get.find<NetworkService>().init();
+      await Get.find<LocalNotificationService>().init();
+
       if (AppConstant.isFirebaseEnabled) {
         await Firebase.initializeApp();
-        await Get.find<CrashlyticsService>().init();
-        await Get.find<NotificationService>().init();
-        await Get.find<DownloadService>().init();
+        await Get.find<FcmService>().init();
       }
-      final elapsed = stopwatch.elapsedMilliseconds;
-      final remaining = 2500 - elapsed;
-      if (remaining > 0) {
-        await Future.delayed(Duration(milliseconds: remaining));
-      }
+
+      await Future.delayed(const Duration(milliseconds: 1500));
       _navigateNext();
     } catch (e) {
       kLog(content: 'Initialization Error: $e', title: 'SPLASH');

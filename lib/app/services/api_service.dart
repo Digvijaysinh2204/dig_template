@@ -403,9 +403,9 @@ class ApiService extends GetxService {
     loader.startLoading();
     await storage.clear();
     if (AppConstant.isFirebaseEnabled) {
-      final notificationService = Get.find<NotificationService>();
-      await notificationService.messaging?.deleteToken();
-      notificationService.getFirebaseToken();
+      final fcmService = Get.find<FcmService>();
+      await fcmService.messaging?.deleteToken();
+      fcmService.getFirebaseToken();
     }
     loader.stopLoading();
   }

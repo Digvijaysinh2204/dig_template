@@ -105,7 +105,7 @@ class DownloadService extends GetxService {
           title: 'DownloadManager',
           content: 'File moved to Downloads: $newPath',
         );
-        Get.find<NotificationService>().showCustomNotification(
+        Get.find<LocalNotificationService>().show(
           title: actualFilename,
           body: l10n.downloadComplete,
           payload: {'path': newPath, 'type': 'Download'},

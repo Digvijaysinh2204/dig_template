@@ -56,18 +56,18 @@ class RegisterController extends GetxController {
       final List<dynamic> userListJson =
           StoreData.readData(StoreKey.userList) ?? [];
       userListJson.add(newUser.toJson());
-      StoreData.setData(StoreKey.userList, userListJson);
 
-      // Update current user
-      UserService.instance.updateUser(newUser);
-      StoreData.setData(StoreKey.isLogin, true);
-
-      showToast(
-        message: Get.context!.loc.registrationSuccessful,
-        type: ToastType.success,
-      );
-
-      Get.offAllNamed(AppRoute.mainView);
+      Future.wait([
+        StoreData.setData(StoreKey.userList, userListJson),
+        StoreData.setData(StoreKey.isLogin, true),
+      ]).then((_) {
+        UserService.instance.updateUser(newUser);
+        showToast(
+          message: Get.context!.loc.registrationSuccessful,
+          type: ToastType.success,
+        );
+        Get.offAllNamed(AppRoute.mainView);
+      });
     });
   }
 

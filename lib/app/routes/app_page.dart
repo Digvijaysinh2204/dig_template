@@ -1,4 +1,5 @@
 import '../module/module_export.dart';
+import '../module/test_detail/test_detail_binding.dart';
 import '../utils/import.dart';
 
 abstract class AppPage {
@@ -29,6 +30,12 @@ abstract class AppPage {
       name: AppRoute.mainView,
       page: () => const MainView(),
       binding: MainBinding(),
+    ),
+    GetPage(
+      name: '/TestDetail/:id',
+      page: () => const TestDetailView(),
+      binding: TestDetailBinding(),
+      preventDuplicates: false,
     ),
   ];
 }
